@@ -3,15 +3,16 @@ import { connect } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import * as actions from "store/actions";
 import TopHeader from "components/header";
-import AlreadyEnv from "components/Content/AlreadyEnv";
-import SmartBuild from "components/Content/SmartBuild";
-import NewEnv from "components/Content/NewEnv";
-import SendReport from "components/Content/SendReport";
-import CountPage from "components/Content/CountPage";
-import MockUve from "components/Content/MockUve";
-import MockSfst from "components/Content/MockSfst";
-import SearchMid from "components/Content/SearchMid";
-import DebugTool from "components/Content/DebugTool";
+// import AlreadyEnv from "components/Content/AlreadyEnv";
+// import SmartBuild from "components/Content/SmartBuild";
+// import NewEnv from "components/Content/NewEnv";
+// import SendReport from "components/Content/SendReport";
+import MainPage from "components/Content/MainPage";
+// import CountPage from "components/Content/CountPage";
+// import MockUve from "components/Content/MockUve";
+// import MockSfst from "components/Content/MockSfst";
+// import SearchMid from "components/Content/SearchMid";
+// import DebugTool from "components/Content/DebugTool";
 import LeftNav from "components/leftNav/index";
 import RefreshLeftNavChecked from "utils/refreshLeftNavChecked";
 
@@ -34,16 +35,8 @@ function App(props) {
         <TopHeader />
         <div className="mainContainer">
           <LeftNav />
-          <Route path="/" exact component={SendReport} />
-          <Route path="/alreadyEnv" component={AlreadyEnv} />
-          <Route path="/smartBuild" component={SmartBuild} />
-          <Route path="/newEnv" component={NewEnv} />
-          <Route path="/sendReport" component={SendReport} />
-          <Route path="/countPage" component={CountPage} />
-          <Route path="/mockUve" component={MockUve} />
-          <Route path="/mockSfst" component={MockSfst} />
-          <Route path="/searchMid" component={SearchMid} />
-          <Route path="/debugTool" component={DebugTool} />
+          <Route path="/" exact component={MainPage} />
+          <Route path="/mainPage" component={MainPage} />
         </div>
         <RefreshLeftNavChecked ref={ref} dispatch={dispatch} />
       </Layout>

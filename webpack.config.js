@@ -65,7 +65,7 @@ let webpackConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "联调平台",
+      title: "渲染DIFF平台",
       template: "./src/webapp/index.html", // 模版原始路径
       filename: path.join(__dirname, "/dist/index.html"), // index.html 输出目录
     }),

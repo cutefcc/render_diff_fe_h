@@ -22,4 +22,10 @@ const moduleConfig = [
   { label: "topfans", value: "topfans" },
   { label: "nofans", value: "nofans" },
 ];
-export { moduleConfig, types };
+const senceConfig = [
+  {label: '主feed流', value: 'mainfeed'}
+];
+const productsConfig = [
+  {label: '超级粉丝通', value: 'Sfst'}
+];
+export { moduleConfig, types, senceConfig, productsConfig };
