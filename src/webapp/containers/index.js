@@ -3,16 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import * as actions from "store/actions";
 import TopHeader from "components/header";
-// import AlreadyEnv from "components/Content/AlreadyEnv";
-// import SmartBuild from "components/Content/SmartBuild";
-// import NewEnv from "components/Content/NewEnv";
-// import SendReport from "components/Content/SendReport";
 import MainPage from "components/Content/MainPage";
-// import CountPage from "components/Content/CountPage";
-// import MockUve from "components/Content/MockUve";
-// import MockSfst from "components/Content/MockSfst";
-// import SearchMid from "components/Content/SearchMid";
-// import DebugTool from "components/Content/DebugTool";
 import LeftNav from "components/leftNav/index";
 import RefreshLeftNavChecked from "utils/refreshLeftNavChecked";
 
