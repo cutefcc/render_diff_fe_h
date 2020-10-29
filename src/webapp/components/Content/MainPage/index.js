@@ -9,7 +9,6 @@ import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
 import { getUrlParams, get10BitRandomStr } from "utils/index";
 import { senceConfig, productsConfig } from "constants/index";
-import { MUIButton } from "test-cutefcc";
 import { Input, Radio, Select, message, Button } from "antd";
 const { Option } = Select;
 import "./index.less";
@@ -185,12 +184,6 @@ class MainPage extends React.Component {
             >
               反向选择
             </Button>
-            <MUIButton
-              type="mbutton_s_fixed_blue450_l1"
-              onClick={this.handleClick}
-            >
-              一级按钮
-            </MUIButton>
           </div>
         </div>
       </>
