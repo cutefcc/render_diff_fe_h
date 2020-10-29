@@ -10,7 +10,7 @@ import * as actions from "store/actions";
 import { getUrlParams, get10BitRandomStr } from "utils/index";
 import { senceConfig, productsConfig } from "constants/index";
 import { MUIButton } from "test-cutefcc";
-import {
+import { 
   Input,
   Radio,
   DatePicker,
