@@ -7,6 +7,7 @@ import autobind from "autobind-decorator";
 import { Menu, Button } from "antd";
 import {
   // AppstoreOutlined,
+  ContainerOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   DesktopOutlined,
@@ -57,82 +58,38 @@ class LeftNav extends React.Component {
           inlineCollapsed={leftNavStatus}
           className="menuUl"
         >
-          {/* <SubMenu key="sub1" icon={<PieChartOutlined />} title="联调环境管理">
-            <Menu.Item
-              key="5"
-              onClick={() => {
-                this.props.history.push("/alreadyEnv");
-                this.handleItemClick("5");
-              }}
-            >
-              已有环境列表
-            </Menu.Item>
-            <Menu.Item
-              key="6"
-              onClick={() => {
-                this.props.history.push("/debugTool");
-                this.handleItemClick("6");
-              }}
-            >
-              环境详情页
-            </Menu.Item>
-            <Menu.Item
-              key="7"
-              onClick={() => {
-                this.props.history.push("/sendReport");
-                this.handleItemClick("7");
-              }}
-            >
-              发送测试报告
-            </Menu.Item>
-            <Menu.Item
-              key="8"
-              onClick={() => {
-                this.props.history.push("/searchMid");
-                this.handleItemClick("8");
-              }}
-            >
-              查询mid页
-            </Menu.Item>
-            <Menu.Item
-              key="9"
-              onClick={() => {
-                this.props.history.push("/mockUve");
-                this.handleItemClick("9");
-              }}
-            >
-              <span title="mockUVE返回数据">mockUVE返回数据</span>
-            </Menu.Item>
-            <Menu.Item
-              key="10"
-              onClick={() => {
-                this.props.history.push("/mockSfst");
-                this.handleItemClick("10");
-              }}
-            >
-              mockSFST返回数据
-            </Menu.Item>
-          </SubMenu> */}
           <Menu.Item
             key="2"
             onClick={() => {
-              this.props.history.push("/sendReport");
+              this.props.history.push("/newProject");
               this.handleItemClick("2");
-            }}
-            icon={<DesktopOutlined />}
-          >
-            首页
-          </Menu.Item>
-          {/* <Menu.Item
-            key="3"
-            onClick={() => {
-              this.props.history.push("/newEnv");
-              this.handleItemClick("3");
             }}
             icon={<ContainerOutlined />}
           >
-            新建联调环境
+            新建项目
           </Menu.Item>
+          <Menu.Item
+            key="3"
+            onClick={() => {
+              this.props.history.push("/allProjects");
+              this.handleItemClick("3");
+            }}
+            icon={<DesktopOutlined />}
+          >
+            已有项目列表
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            onClick={() => {
+              this.props.history.push("/handleDiff");
+              this.handleItemClick("4");
+            }}
+            icon={<DesktopOutlined />}
+          >
+            对比测试
+          </Menu.Item>
+
+          {/* 
           <Menu.Item
             key="4"
             onClick={() => {

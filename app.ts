@@ -22,6 +22,8 @@ server
           "/api/test",
           "/api/getExpiredEnvsLists",
           "/api/getEnvsLists",
+          "/api/new_task",
+          "/api/getAllProjects",
         ], //'/', '/api', '/index','/test'
         // rewrites: [{
         //     from: '.*',

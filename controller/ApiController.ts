@@ -69,6 +69,161 @@ export default class ApiController implements interfaces.Controller {
     }
     ctx.body = res;
   }
+  @httpGet("/getAllProjects")
+  private async getAllProjects(
+    ctx: Router.IRouterContext,
+    next: () => Promise<any>
+  ): Promise<any> {
+    const url: string = `${urlPrefix}all_projects`;
+    let res: object = {};
+    // try {
+    //   const result: Promise<Object> = await this.apiService.getInfo(url);
+    //   res = result;
+    // } catch {
+    //   res = {
+    //     code: 0,
+    //     message: "接口返回错误",
+    //   };
+    // }
+
+    res = {
+      code: 0,
+      data: [
+        {
+          id: 0,
+          project_name: "项目名称0",
+          branch: "测试分支0",
+          time: "2020/10/29 12:05:49",
+          result_info: [
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+          ],
+        },
+        {
+          id: 1,
+          project_name: "项目名称1",
+          branch: "测试分支1",
+          time: "2020/11/29 12:05:49",
+          result_info: [
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+          ],
+        },
+        {
+          id: 2,
+          project_name: "项目名称2",
+          branch: "测试分支2",
+          time: "2020/10/19 12:05:49",
+          result_info: [
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+            {
+              json1: {},
+              json2: {},
+              diff: {
+                add: {},
+                dele: {},
+                madify: {},
+              },
+            },
+          ],
+        },
+      ],
+    };
+    ctx.body = res;
+  }
+  @httpPost("/new_task")
+  private async newTask(
+    ctx: Router.IRouterContext,
+    next: () => Promise<any>
+  ): Promise<any> {
+    let query = ctx.request.body;
+    const url: string = `${urlPrefix}env_lists`;
+    let res: object = {};
+    console.log("前端传来的参数", query);
+    // try {
+    //   const result: Promise<Object> = await this.apiService.getInfo(url);
+    //   res = result;
+    // } catch {
+    //   res = {
+    //     code: 0,
+    //     message: "接口返回错误",
+    //   };
+    // }
+    res = {
+      code: 1,
+      data: {
+        a: 123,
+      },
+    };
+    ctx.body = res;
+  }
   @httpPost("/autoGenerate")
   private async autoGenerate(
     ctx: Router.IRouterContext,
