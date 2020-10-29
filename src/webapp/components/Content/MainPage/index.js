@@ -8,20 +8,9 @@ import RightConSubTitle from "commonComponents/RightConSubTitle";
 import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
 import { getUrlParams, get10BitRandomStr } from "utils/index";
-import { moduleConfig, senceConfig, productsConfig } from "constants/index";
-import {
-  Input,
-  Radio,
-  DatePicker,
-  Space,
-  Table,
-  Select,
-  message,
-  Button,
-} from "antd";
+import { senceConfig, productsConfig } from "constants/index";
+import { Input, Radio, Select, message, Button } from "antd";
 const { Option } = Select;
-const { TextArea } = Input;
-const { RangePicker } = DatePicker;
 import "./index.less";
 const radioOptions = [
   { label: "是", value: "yes" },
@@ -119,8 +108,6 @@ class MainPage extends React.Component {
 
   renderForm = () => {
     const task_name = R.pathOr("", ["state", "urlParams", "task_name"], this);
-    const columns = R.pathOr([], ["state", "columns"], this);
-    const tableData = R.pathOr([], ["state", "tableData"], this);
     return (
       <>
         <RightConSubTitle text="" />
