@@ -10,17 +10,6 @@ import * as actions from "store/actions";
 import { getUrlParams, get10BitRandomStr } from "utils/index";
 import { senceConfig, productsConfig } from "constants/index";
 import { MUIButton } from "test-cutefcc";
-import { 
-  Input,
-  Radio,
-  DatePicker,
-  Space,
-  Table,
-  Select,
-  message,
-  Button,
-} from "antd";
-import { senceConfig, productsConfig } from "constants/index";
 import { Input, Radio, Select, message, Button } from "antd";
 const { Option } = Select;
 import "./index.less";
