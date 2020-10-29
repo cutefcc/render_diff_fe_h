@@ -22,7 +22,7 @@ function App(props) {
 
   return (
     <BrowserRouter>
-      <Layout className="layout"> 
+      <Layout className="layout">
         <TopHeader />
         <div className="mainContainer">
           <LeftNav />
