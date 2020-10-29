@@ -23,7 +23,7 @@ const moduleConfig = [
   { label: "nofans", value: "nofans" },
 ];
 const senceConfig = [
-  {label: '主feed流', value: 'mainfeed'},
+  { label: "主feed流", value: "mainfeed" },
   { label: "分组feed流", value: "groupfeed" },
   { label: "好友圈feed流", value: "friendfeed" },
   { label: "热门微博流", value: "hot_tweets_feed" },
@@ -56,7 +56,7 @@ const senceConfig = [
   { label: "极速版_关注流", value: "weibolite_mainfeed" },
   { label: "极速版_推荐流", value: "weibolite_hot" },
   { label: "问答流", value: "qa_feed" },
-  { label: "问答banner", value: "qa_feed" },
+  { label: "问答banner", value: "qa_banner" },
   { label: "附近流", value: "nearby_feed" },
   { label: "新鲜事流", value: "freshnews_feed" },
   { label: "快应用_正文页", value: "wbfastapp_single_page" },
@@ -76,10 +76,22 @@ const senceConfig = [
   { label: "直播前贴", value: "prelivepaster" },
   { label: "绿洲关注流", value: "oasis_main_feed" },
   { label: "发现页热点流", value: "discover_hotspot_feed" },
-  { label: "拓展阅读流", value: "recommendation" }
-
+  { label: "拓展阅读流", value: "recommendation" },
 ];
 const productsConfig = [
-  {label: '超级粉丝通', value: 'Sfst'}
+  { label: "超级粉丝通", value: "Sfst" },
+  { label: "粉丝头条投非粉", value: "FanstopExtend" },
+  { label: "WAX", value: "WAX" },
+  { label: "涨粉", value: "AddFans" },
+  { label: "视频角标", value: "VideoHighlight" },
+  { label: "粉丝头条", value: "TopFans" },
+  { label: "品牌热推", value: "Feedcpd" },
+  { label: "视频翻版广告", value: "VideoBanner" },
+  { label: "智能淘客", value: "AITao" },
+  { label: "智能投放", value: "SmartD" },
+  { label: "故事关注流顶部", value: "StoryTop" },
+  { label: "视频三件套", value: "videoaccompaniedad" },
+  { label: "直播伴随产品", value: "liveaccompaniedad" },
+  { label: "品牌大视窗", value: "BrandView" },
 ];
 export { moduleConfig, types, senceConfig, productsConfig };

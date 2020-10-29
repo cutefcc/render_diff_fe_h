@@ -9,13 +9,10 @@ import {
   // AppstoreOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  PieChartOutlined,
   DesktopOutlined,
-  ContainerOutlined,
   // MailOutlined,
 } from "@ant-design/icons";
 
-const { SubMenu } = Menu;
 import "./index.less";
 
 @withRouter
