@@ -71,12 +71,12 @@ class LeftNav extends React.Component {
           <Menu.Item
             key="3"
             onClick={() => {
-              this.props.history.push("/allProjects");
+              this.props.history.push("/allTask");
               this.handleItemClick("3");
             }}
             icon={<DesktopOutlined />}
           >
-            已有项目列表
+            任务列表
           </Menu.Item>
           <Menu.Item
             key="4"

@@ -80,11 +80,11 @@ class HandleDiff extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllProjectsInfo();
+    this.getAllTaskInfo();
   }
 
-  getAllProjectsInfo = () => {
-    fetch("/api/getAllProjects")
+  getAllTaskInfo = () => {
+    fetch("/api/getAllTask")
       .then((resp) => {
         return resp.json();
       })
@@ -104,7 +104,7 @@ class HandleDiff extends React.Component {
       });
   };
 
-  renderBreadcrumb = () => <RightConBreadcrumb text="已有项目列表" />;
+  renderBreadcrumb = () => <RightConBreadcrumb text="任务列表" />;
 
   handleProjectNameChange = (e) => {
     this.setState({

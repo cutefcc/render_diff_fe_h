@@ -19,11 +19,8 @@ server
       historyApiFallback({
         index: "/index.html",
         whiteList: [
-          "/api/test",
-          "/api/getExpiredEnvsLists",
-          "/api/getEnvsLists",
-          "/api/new_task", //进入已有项目环境，进行渲染diff接口
-          "/api/getAllProjects",
+          "/api/newProject", //进入已有项目环境，进行渲染diff接口
+          "/api/getAllTask",
         ], //'/', '/api', '/index','/test'
         // rewrites: [{
         //     from: '.*',

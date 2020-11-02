@@ -5,7 +5,7 @@ import * as actions from "store/actions";
 import TopHeader from "components/header";
 import MainPage from "components/Content/MainPage";
 import NewProject from "components/Content/NewProject";
-import AllProjects from "components/Content/AllProjects";
+import AllTask from "components/Content/allTask";
 import HandleDiff from "components/Content/HandleDiff";
 import LeftNav from "components/leftNav/index";
 import RefreshLeftNavChecked from "utils/refreshLeftNavChecked";
@@ -32,7 +32,7 @@ function App(props) {
           <Route path="/" exact component={MainPage} />
           <Route path="/mainPage" component={MainPage} />
           <Route path="/newProject" component={NewProject} />
-          <Route path="/allProjects" component={AllProjects} />
+          <Route path="/allTask" component={AllTask} />
           <Route path="/handleDiff" component={HandleDiff} />
         </div>
         <RefreshLeftNavChecked ref={ref} dispatch={dispatch} />

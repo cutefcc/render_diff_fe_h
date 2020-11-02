@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import fetch from "cross-fetch";
 import autobind from "autobind-decorator";
 import RightConBreadcrumb from "commonComponents/RightConBreadcrumb";
+import Pagination from "commonComponents/Pagination";
 import RightConSubTitle from "commonComponents/RightConSubTitle";
 // import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
@@ -21,27 +22,38 @@ const columns = [
     dataIndex: "project_name",
   },
   {
-    title: "创建日期",
-    dataIndex: "time",
-  },
-  {
     title: "分支",
     dataIndex: "branch",
   },
   {
+    title: "创建日期",
+    dataIndex: "time",
+  },
+  {
     title: "diff结果",
+    dataIndex: "if_successed",
+    render: (if_successed) => {
+      return (
+        <>
+          {if_successed ? (
+            <span style={{ color: "green" }}>通过</span>
+          ) : (
+            <span style={{ color: "red" }}>不通过</span>
+          )}
+        </>
+      );
+    },
+  },
+  {
+    title: "查看详情",
     dataIndex: "result_info",
     render: (data) => {
       console.log("data===", data);
       return (
         <>
-          {data.map((item, index) => {
-            return (
-              <Button key={index} type="primary" onClick={() => {}}>
-                {index}
-              </Button>
-            );
-          })}
+          <Button type="primary" onClick={() => {}}>
+            查看详情
+          </Button>
         </>
       );
     },
@@ -50,20 +62,24 @@ const columns = [
 
 @withRouter
 @autobind
-class AllProjects extends React.Component {
+class allTask extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      projectLists: [],
+      projectLists: [], // 所有的数据
+      showLists: [], // 显示的列表数据
+      page: 1,
+      size: 3,
     };
   }
 
   componentDidMount() {
-    this.getAllProjectsInfo();
+    this.getAllTaskInfo();
   }
 
-  getAllProjectsInfo = () => {
-    fetch("/api/getAllProjects")
+  getAllTaskInfo = () => {
+    const { size } = this.state;
+    fetch("/api/getAllTask")
       .then((resp) => {
         return resp.json();
       })
@@ -75,15 +91,15 @@ class AllProjects extends React.Component {
             res.data[i].sort = i;
             res.data[i].key = i;
           }
-          res.data;
           this.setState({
             projectLists: res.data,
+            showLists: res.data.slice(0, size),
           });
         }
       });
   };
 
-  renderBreadcrumb = () => <RightConBreadcrumb text="已有项目列表" />;
+  renderBreadcrumb = () => <RightConBreadcrumb text="任务列表" />;
 
   handleProjectNameChange = (e) => {
     this.setState({
@@ -97,8 +113,21 @@ class AllProjects extends React.Component {
     });
   };
 
-  renderForm = () => {
+  handlePageChange = (page, size) => {
     const { projectLists } = this.state;
+    const showLists = projectLists.slice(
+      size * (page - 1),
+      size * (page - 1) + size
+    );
+    this.setState({
+      page,
+      size,
+      showLists,
+    });
+  };
+
+  renderForm = () => {
+    const { projectLists, page, size, showLists } = this.state;
     return (
       <>
         <RightConSubTitle text="" />
@@ -120,8 +149,14 @@ class AllProjects extends React.Component {
         <Table
           pagination={false}
           columns={columns}
-          dataSource={projectLists}
+          dataSource={showLists}
           size="small"
+        />
+        <Pagination
+          total={projectLists.length}
+          pageSize={size}
+          current={page}
+          onChange={this.handlePageChange}
         />
       </>
     );
@@ -150,4 +185,4 @@ let mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllProjects);
+export default connect(mapStateToProps, mapDispatchToProps)(allTask);
