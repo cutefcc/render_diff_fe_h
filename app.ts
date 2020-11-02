@@ -22,7 +22,7 @@ server
           "/api/test",
           "/api/getExpiredEnvsLists",
           "/api/getEnvsLists",
-          "/api/new_task",
+          "/api/new_task", //进入已有项目环境，进行渲染diff接口
           "/api/getAllProjects",
         ], //'/', '/api', '/index','/test'
         // rewrites: [{
