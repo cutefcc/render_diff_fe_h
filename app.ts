@@ -21,6 +21,7 @@ server
         whiteList: [
           "/api/newProject", //进入已有项目环境，进行渲染diff接口
           "/api/getAllTask",
+          "/api/getDiffResult",
         ], //'/', '/api', '/index','/test'
         // rewrites: [{
         //     from: '.*',

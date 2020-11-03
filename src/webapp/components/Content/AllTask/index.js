@@ -12,54 +12,6 @@ import * as actions from "store/actions";
 import { Table, Button, Input } from "antd";
 import "./index.less";
 
-const columns = [
-  {
-    title: "序号",
-    dataIndex: "sort",
-  },
-  {
-    title: "项目名称",
-    dataIndex: "project_name",
-  },
-  {
-    title: "分支",
-    dataIndex: "branch",
-  },
-  {
-    title: "创建日期",
-    dataIndex: "time",
-  },
-  {
-    title: "diff结果",
-    dataIndex: "if_successed",
-    render: (if_successed) => {
-      return (
-        <>
-          {if_successed ? (
-            <span style={{ color: "green" }}>通过</span>
-          ) : (
-            <span style={{ color: "red" }}>不通过</span>
-          )}
-        </>
-      );
-    },
-  },
-  {
-    title: "查看详情",
-    dataIndex: "result_info",
-    render: (data) => {
-      console.log("data===", data);
-      return (
-        <>
-          <Button type="primary" onClick={() => {}}>
-            查看详情
-          </Button>
-        </>
-      );
-    },
-  },
-];
-
 @withRouter
 @autobind
 class allTask extends React.Component {
@@ -69,7 +21,63 @@ class allTask extends React.Component {
       projectLists: [], // 所有的数据
       showLists: [], // 显示的列表数据
       page: 1,
-      size: 3,
+      size: 10,
+      columns: [
+        {
+          title: "序号",
+          dataIndex: "sort",
+        },
+        {
+          title: "项目名称",
+          dataIndex: "project_name",
+        },
+        {
+          title: "分支",
+          dataIndex: "branch",
+        },
+        {
+          title: "task_id",
+          dataIndex: "task_id",
+        },
+        {
+          title: "创建日期",
+          dataIndex: "time",
+        },
+        {
+          title: "diff结果",
+          dataIndex: "if_successed",
+          render: (if_successed) => {
+            return (
+              <>
+                {if_successed ? (
+                  <span style={{ color: "green" }}>通过</span>
+                ) : (
+                  <span style={{ color: "red" }}>不通过</span>
+                )}
+              </>
+            );
+          },
+        },
+        {
+          title: "查看详情",
+          dataIndex: "task_id",
+          render: (task_id) => {
+            return (
+              <>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    console.log("---data---", task_id);
+                    this.props.history.push(`/handleDiff?task_id=${task_id}`);
+                  }}
+                >
+                  查看详情
+                </Button>
+              </>
+            );
+          },
+        },
+      ],
     };
   }
 
@@ -127,7 +135,7 @@ class allTask extends React.Component {
   };
 
   renderForm = () => {
-    const { projectLists, page, size, showLists } = this.state;
+    const { projectLists, page, size, showLists, columns } = this.state;
     return (
       <>
         <RightConSubTitle text="" />

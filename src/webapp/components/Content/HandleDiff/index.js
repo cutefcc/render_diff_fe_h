@@ -7,9 +7,10 @@ import autobind from "autobind-decorator";
 import RightConBreadcrumb from "commonComponents/RightConBreadcrumb";
 import RightConSubTitle from "commonComponents/RightConSubTitle";
 import { senceConfig, productsConfig } from "constants/index";
+import { getUrlParams } from "utils/index";
 // import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
-import { Radio, Select, Input, Button } from "antd";
+import { Table, Radio, Select, Input, Button } from "antd";
 const { Option } = Select;
 import "./index.less";
 const downloadTypeEadioOptions = [
@@ -30,42 +31,6 @@ const renderProductsOptions = () => {
     return <Option key={item.value}>{item.label}</Option>;
   });
 };
-// const columns = [
-//   {
-//     title: "序号",
-//     dataIndex: "sort",
-//   },
-//   {
-//     title: "项目名称",
-//     dataIndex: "project_name",
-//   },
-//   {
-//     title: "创建日期",
-//     dataIndex: "time",
-//   },
-//   {
-//     title: "分支",
-//     dataIndex: "branch",
-//   },
-//   {
-//     title: "diff结果",
-//     dataIndex: "result_info",
-//     render: (data) => {
-//       console.log("data===", data);
-//       return (
-//         <>
-//           {data.map((item, index) => {
-//             return (
-//               <Button key={index} type="primary" onClick={() => {}}>
-//                 {index}
-//               </Button>
-//             );
-//           })}
-//         </>
-//       );
-//     },
-//   },
-// ];
 
 @withRouter
 @autobind
@@ -76,12 +41,105 @@ class HandleDiff extends React.Component {
       projectLists: [],
       downloadType: "yes",
       selectMethod: "yes",
+      urlParams: {},
+      hasTaskId: false,
+      page: 0,
+      size: 10,
+      diffResultList: [], // diff_result 返回的列表
+      columns: [
+        {
+          title: "序号",
+          dataIndex: "sort",
+        },
+        {
+          title: "项目名称",
+          dataIndex: "project_name",
+        },
+        {
+          title: "分支",
+          dataIndex: "branch",
+        },
+        {
+          title: "筛选方式",
+          dataIndex: "is_filtered",
+          render: (is_filtered) => {
+            return <>{is_filtered === "include" ? "包含" : "不包含"}</>;
+          },
+        },
+        {
+          title: "筛选条件",
+          dataIndex: "all",
+          render: (all) => {
+            return (
+              <>
+                {all.is_filtered === "include"
+                  ? JSON.stringify(all.white_list)
+                  : JSON.stringify(all.black_list)}
+              </>
+            );
+          },
+        },
+        // {
+        //   title: "diff结果",
+        //   dataIndex: "result_info",
+        //   render: (data) => {
+        //     console.log("data===", data);
+        //     return (
+        //       <>
+        //         {data.map((item, index) => {
+        //           return (
+        //             <Button key={index} type="primary" onClick={() => {}}>
+        //               {index}
+        //             </Button>
+        //           );
+        //         })}
+        //       </>
+        //     );
+        //   },
+        // },
+      ],
     };
   }
 
   componentDidMount() {
     this.getAllTaskInfo();
+    this.handleHasTaskId();
   }
+
+  handleHasTaskId = () => {
+    const urlObj = getUrlParams();
+    if (urlObj.task_id) {
+      this.handleGetDiffResult(urlObj.task_id);
+      this.setState({
+        hasTaskId: true,
+      });
+    }
+  };
+
+  handleGetDiffResult = (task_id) => {
+    const { size } = this.state;
+    fetch(`/api/getDiffResult?task_id=${task_id}&page_id=0&page_size=${size}`)
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((res = {}) => {
+        console.log("res=====", res);
+        const {
+          code,
+          data: { list },
+        } = res;
+        for (let i = 0; i <= list.length - 1; i++) {
+          list[i].sort = i;
+          list[i].key = i;
+          list[i].all = list[i];
+        }
+        if (code === 0) {
+          this.setState({
+            diffResultList: list,
+          });
+        }
+      });
+  };
 
   getAllTaskInfo = () => {
     fetch("/api/getAllTask")
@@ -209,10 +267,20 @@ class HandleDiff extends React.Component {
   };
 
   render() {
+    const { hasTaskId, diffResultList, columns } = this.state;
+    console.log("diffResultList.length", diffResultList.length);
     return (
       <div className="rightCon sendReport">
         {this.renderBreadcrumb()}
-        {this.renderForm()}
+        {!hasTaskId && this.renderForm()}
+        {diffResultList.length > 0 && (
+          <Table
+            pagination={false}
+            columns={columns}
+            dataSource={diffResultList}
+            size="small"
+          />
+        )}
       </div>
     );
   }
