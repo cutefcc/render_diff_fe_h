@@ -44,6 +44,13 @@ class allTask extends React.Component {
           dataIndex: "time",
         },
         {
+          title: "环境状态",
+          dataIndex: "status",
+          render: (status) => {
+            return <>{status === 1 ? "正常" : "部署中"}</>;
+          },
+        },
+        {
           title: "diff结果",
           dataIndex: "if_successed",
           render: (if_successed) => {
@@ -68,7 +75,7 @@ class allTask extends React.Component {
                   type="primary"
                   onClick={() => {
                     console.log("---data---", task_id);
-                    this.props.history.push(`/handleDiff?task_id=${task_id}`);
+                    this.props.history.push(`/taskDetail?task_id=${task_id}`);
                   }}
                 >
                   查看详情

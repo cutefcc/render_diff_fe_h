@@ -94,9 +94,14 @@ class NewProject extends React.Component {
             style={{ height: "0px", overflow: "hidden" }}
           ></div>
           <div style={{ marginLeft: "88px", marginTop: "10px" }}>
-            <Button type="primary" onClick={this.btnClick}>
+            <Button
+              type="primary"
+              onClick={this.btnClick}
+              style={{ marginRight: "20px" }}
+            >
               部署环境
             </Button>
+            <Button type="primary">更新环境</Button>
           </div>
         </div>
       </>

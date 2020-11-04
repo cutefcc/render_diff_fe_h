@@ -34,6 +34,7 @@ function App(props) {
           <Route path="/newProject" component={NewProject} />
           <Route path="/allTask" component={AllTask} />
           <Route path="/handleDiff" component={HandleDiff} />
+          <Route path="/taskDetail" component={HandleDiff} />
         </div>
         <RefreshLeftNavChecked ref={ref} dispatch={dispatch} />
       </Layout>

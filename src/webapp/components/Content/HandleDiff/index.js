@@ -10,7 +10,8 @@ import { senceConfig, productsConfig } from "constants/index";
 import { getUrlParams } from "utils/index";
 // import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
-import { Table, Radio, Select, Input, Button } from "antd";
+import { Table, Radio, Select, Input, Button, Modal } from "antd";
+// import {RollbackOutlined} from '@ant-design/icons';
 const { Option } = Select;
 import "./index.less";
 const downloadTypeEadioOptions = [
@@ -46,6 +47,9 @@ class HandleDiff extends React.Component {
       page: 0,
       size: 10,
       diffResultList: [], // diff_result 返回的列表
+      visible: false, // 对比结果弹窗
+      json_master: {}, // json
+      json_test: {}, //
       columns: [
         {
           title: "序号",
@@ -79,24 +83,36 @@ class HandleDiff extends React.Component {
             );
           },
         },
-        // {
-        //   title: "diff结果",
-        //   dataIndex: "result_info",
-        //   render: (data) => {
-        //     console.log("data===", data);
-        //     return (
-        //       <>
-        //         {data.map((item, index) => {
-        //           return (
-        //             <Button key={index} type="primary" onClick={() => {}}>
-        //               {index}
-        //             </Button>
-        //           );
-        //         })}
-        //       </>
-        //     );
-        //   },
-        // },
+        {
+          title: "请求信息",
+          dataIndex: "result",
+          render: (result) => {
+            return <>{JSON.stringify(result.in_params)}</>;
+          },
+        },
+        {
+          title: "操作",
+          dataIndex: "all",
+          render: (all) => {
+            return (
+              <>
+                <Button
+                  size="small"
+                  type="primary"
+                  onClick={() => {
+                    this.setState({
+                      visible: true,
+                      json_master: all.result.json_master,
+                      json_test: all.result.json_test,
+                    });
+                  }}
+                >
+                  对比结果
+                </Button>
+              </>
+            );
+          },
+        },
       ],
     };
   }
@@ -162,7 +178,11 @@ class HandleDiff extends React.Component {
       });
   };
 
-  renderBreadcrumb = () => <RightConBreadcrumb text="任务列表" />;
+  renderBreadcrumb = () => (
+    <RightConBreadcrumb
+      text={this.state.hasTaskId ? "任务列表 / 详情" : "任务列表"}
+    />
+  );
 
   handleProjectNameChange = (e) => {
     this.setState({
@@ -185,6 +205,18 @@ class HandleDiff extends React.Component {
   handleSelectMethodChange = (e) => {
     this.setState({
       selectMethod: e.target.value,
+    });
+  };
+
+  handleOk = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      visible: false,
     });
   };
 
@@ -273,6 +305,43 @@ class HandleDiff extends React.Component {
       <div className="rightCon sendReport">
         {this.renderBreadcrumb()}
         {!hasTaskId && this.renderForm()}
+        {/* {hasTaskId && <Button type="primary" style={{margin: '20px 0 20px 0'}}>返回任务列表</Button>} */}
+        {hasTaskId && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              marginBottom: "10px",
+              marginTop: "-28px",
+            }}
+          >
+            <Button
+              size={"small"}
+              type="primary"
+              style={{ margin: "0 0 10px 0" }}
+              onClick={() => {
+                this.props.history.push(`/allTask`);
+              }}
+            >
+              返回
+            </Button>
+          </div>
+        )}
+        {hasTaskId && (
+          <Modal
+            title="对比结果"
+            width={1000}
+            maskClosable={false}
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={null}
+          >
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </Modal>
+        )}
         {diffResultList.length > 0 && (
           <Table
             pagination={false}

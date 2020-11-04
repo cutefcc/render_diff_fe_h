@@ -46,6 +46,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/29 12:05:49",
           if_successed: true,
           task_id: 1,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称1",
@@ -53,6 +54,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/11/29 12:05:49",
           if_successed: false,
           task_id: 5,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -60,6 +62,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 2,
+          status: 1, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -67,6 +70,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 3,
+          status: 1, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -74,6 +78,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 4,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -81,6 +86,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 7,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -88,6 +94,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 9,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -95,6 +102,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 10,
+          status: 1, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -102,6 +110,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 11,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -109,6 +118,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 13,
+          status: 0, // 0 部署中 1 正常
         },
         {
           project_name: "项目名称2",
@@ -116,6 +126,7 @@ export default class ApiController implements interfaces.Controller {
           time: "2020/10/19 12:05:49",
           if_successed: true,
           task_id: 18,
+          status: 1, // 0 部署中 1 正常
         },
       ],
     };
@@ -156,7 +167,7 @@ export default class ApiController implements interfaces.Controller {
             project_name: "项目名称001",
             branch: "测试分支0",
             result: {
-              in_params: {},
+              in_params: { a: "123" },
               json_master: {},
               json_test: {},
               diff_result: {
