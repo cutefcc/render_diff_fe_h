@@ -14,7 +14,7 @@ import "./index.less";
 
 @withRouter
 @autobind
-class allTask extends React.Component {
+class AllTask extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -200,4 +200,4 @@ let mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(allTask);
+export default connect(mapStateToProps, mapDispatchToProps)(AllTask);
