@@ -5,7 +5,7 @@ import * as actions from "store/actions";
 import TopHeader from "components/header";
 import MainPage from "components/Content/MainPage";
 import NewProject from "components/Content/NewProject";
-import AllTask from "components/Content/allTask";
+import AllTask from "components/Content/AllTask";
 import HandleDiff from "components/Content/HandleDiff";
 import LeftNav from "components/leftNav/index";
 import RefreshLeftNavChecked from "utils/refreshLeftNavChecked";
