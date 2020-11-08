@@ -66,19 +66,23 @@ class AllTask extends React.Component {
           },
         },
         {
-          title: "查看详情",
+          title: "操作",
           dataIndex: "task_id",
           render: (task_id) => {
             return (
               <>
                 <Button
                   type="primary"
+                  style={{ marginRight: "10px" }}
                   onClick={() => {
                     console.log("---data---", task_id);
                     this.props.history.push(`/taskDetail?task_id=${task_id}`);
                   }}
                 >
                   查看详情
+                </Button>
+                <Button type="primary" onClick={() => {}}>
+                  保存结果
                 </Button>
               </>
             );

@@ -14,7 +14,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // 这个插件�
 
 let webpackConfig = {
   entry: "./src/webapp/app.js",
-  watch: true, //!_modeflag,
+  watch: !_modeflag,
   devServer: {
     hot: true,
   },

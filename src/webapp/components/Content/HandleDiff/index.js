@@ -1,17 +1,18 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-// import * as R from "ramda";
+import * as R from "ramda";
 import fetch from "cross-fetch";
 import autobind from "autobind-decorator";
 import RightConBreadcrumb from "commonComponents/RightConBreadcrumb";
+import JsonDiffJsx from "commonComponents/JsonDiffJsx";
+import DiffResultList from "commonComponents/DiffResultList";
 import RightConSubTitle from "commonComponents/RightConSubTitle";
 import { senceConfig, productsConfig } from "constants/index";
 import { getUrlParams } from "utils/index";
-// import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
-import { Table, Radio, Select, Input, Button, Modal } from "antd";
-// import {RollbackOutlined} from '@ant-design/icons';
+import { Radio, Select, Input, Button, Modal } from "antd";
+import { UpCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
 const { Option } = Select;
 import "./index.less";
 const downloadTypeEadioOptions = [
@@ -50,77 +51,113 @@ class HandleDiff extends React.Component {
       visible: false, // 对比结果弹窗
       json_master: {}, // json
       json_test: {}, //
-      columns: [
-        {
-          title: "序号",
-          dataIndex: "sort",
+      modalWidth: 1000,
+      modalHeight: 1000,
+      hiddenFilter: false,
+      diffResStyle: {
+        a: {
+          background: "rgba(151,234,151,.6)",
+          color: "#000",
         },
-        {
-          title: "项目名称",
-          dataIndex: "project_name",
+        m: {
+          background: "#f60",
+          color: "#000",
+          opacity: "0.5",
         },
-        {
-          title: "分支",
-          dataIndex: "branch",
+        d: {
+          textDecoration: "line-through",
+          color: "red",
+          fontWeight: "bold",
         },
-        {
-          title: "筛选方式",
-          dataIndex: "is_filtered",
-          render: (is_filtered) => {
-            return <>{is_filtered === "include" ? "包含" : "不包含"}</>;
+      },
+      json1: {
+        q: 1,
+        w: 1,
+        arr: [
+          {
+            a: 1,
+            b: 2,
+            c:
+              "fdfdfdfdfdfdfdfdfdfdfdfdfdkkkkkkkkkjdjdjjdjdjdjdjdjdjdjjddj11111",
+          },
+          {
+            a: 4,
+            b: 5,
+            c: 6,
+          },
+        ],
+        a: {
+          b: 1,
+        },
+        b: [],
+        c: {},
+      },
+      json2: {
+        w: 2,
+        arr: [{ a: 12, b: 2, d: 234 }],
+        a: {
+          b: 1,
+          c: {
+            name: "333",
           },
         },
-        {
-          title: "筛选条件",
-          dataIndex: "all",
-          render: (all) => {
-            return (
-              <>
-                {all.is_filtered === "include"
-                  ? JSON.stringify(all.white_list)
-                  : JSON.stringify(all.black_list)}
-              </>
-            );
-          },
+        b: {
+          c: 3,
         },
-        {
-          title: "请求信息",
-          dataIndex: "result",
-          render: (result) => {
-            return <>{JSON.stringify(result.in_params)}</>;
-          },
+        www: {
+          is: "a dog",
+          d: 123,
+          ddd: "12345654",
+          ddd1: "12345654",
+          ddd2: "12345654",
+          ddd3: "12345654",
+          ddd4: "12345654",
+          ddd5: "12345654",
+          ddd6: "12345654",
+          ddd7: "12345654",
+          ddd8: "12345654",
+          ddd9: "12345654",
+          ddd10: "12345654",
         },
-        {
-          title: "操作",
-          dataIndex: "all",
-          render: (all) => {
-            return (
-              <>
-                <Button
-                  size="small"
-                  type="primary"
-                  onClick={() => {
-                    this.setState({
-                      visible: true,
-                      json_master: all.result.json_master,
-                      json_test: all.result.json_test,
-                    });
-                  }}
-                >
-                  对比结果
-                </Button>
-              </>
-            );
-          },
+        c: {
+          e: 4,
         },
-      ],
+        d: {
+          e: 34,
+        },
+        tt: {
+          d: [
+            1,
+            2,
+            3,
+            4,
+            5,
+            {
+              a: {
+                ddd:
+                  "fdfdfdfdfdfdfdfdfdfdfdfdfdkkkkkkkkkjdjdjjdjdjdjdjdjdjdjjddj11111",
+              },
+            },
+          ],
+        },
+      },
     };
   }
 
   componentDidMount() {
     this.getAllTaskInfo();
     this.handleHasTaskId();
+    this.setModalWidthHeight();
   }
+
+  setModalWidthHeight = () => {
+    const w = R.pathOr(1000, ["document", "body", "clientWidth"], window);
+    const h = R.pathOr(1000, ["document", "body", "clientHeight"], window);
+    this.setState({
+      modalWidth: w,
+      modalHeight: h,
+    });
+  };
 
   handleHasTaskId = () => {
     const urlObj = getUrlParams();
@@ -221,9 +258,9 @@ class HandleDiff extends React.Component {
   };
 
   renderForm = () => {
-    const { downloadType, selectMethod } = this.state;
+    const { downloadType, selectMethod, hiddenFilter } = this.state;
     return (
-      <>
+      <div style={{ position: "relative" }}>
         <RightConSubTitle text="" />
         <div className="inputArea">
           <div className="sendReportItem">
@@ -239,73 +276,131 @@ class HandleDiff extends React.Component {
           </div>
         </div>
         <RightConSubTitle text="筛选条件" />
-        <div className="inputArea">
-          <div className="sendReportItem">
-            <span className="inputText">场景</span>
-            <Select
-              defaultValue="mainfeed"
-              onChange={() => {}}
-              className="sendReportItemSelect"
-              // value={"1"}
-            >
-              {renderSenceOptions()}
-            </Select>
-          </div>
-          <div className="sendReportItem">
-            <span className="inputText">产品线</span>
-            <Select
-              defaultValue="Sfst"
-              onChange={() => {}}
-              className="sendReportItemSelect"
-              // value={"1"}
-            >
-              {renderProductsOptions()}
-            </Select>
-          </div>
-          <div className="sendReportItem">
-            <span className="inputText">下载类型</span>
-            <Radio.Group
-              options={downloadTypeEadioOptions}
-              onChange={this.handleDownLoadTypeChange}
-              value={downloadType}
-            />
-          </div>
-          <div className="sendReportItem">
-            <span className="inputText">筛选方式</span>
-            <Radio.Group
-              options={selectMethodRadioOptions}
-              onChange={this.handleSelectMethodChange}
-              value={selectMethod}
-            />
-          </div>
+        {!hiddenFilter && (
+          <div className="inputArea">
+            <div className="sendReportItem">
+              <span className="inputText">场&nbsp;&nbsp;&nbsp;&nbsp;景</span>
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ minWidth: "200px" }}
+                // placeholder="Please select"
+                defaultValue={["mainfeed"]}
+                onChange={() => {}}
+              >
+                {renderSenceOptions()}
+              </Select>
+            </div>
+            <div className="sendReportItem">
+              <span className="inputText">产品线</span>
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ minWidth: "200px" }}
+                // placeholder="Please select"
+                defaultValue={["Sfst"]}
+                onChange={() => {}}
+              >
+                {renderProductsOptions()}
+              </Select>
+            </div>
+            <div className="sendReportItem">
+              <span className="inputText">下载类型</span>
+              <Radio.Group
+                options={downloadTypeEadioOptions}
+                onChange={this.handleDownLoadTypeChange}
+                value={downloadType}
+              />
+            </div>
+            <div className="sendReportItem">
+              <span className="inputText">自定义</span>
+              <Input
+                className="sendReportItemSelect"
+                placeholder="检索条件"
+                // defaultVal={task_name}
+                onValueChange={() => {}}
+              />
+            </div>
+            <div className="sendReportItem">
+              <span className="inputText">筛选方式</span>
+              <Radio.Group
+                options={selectMethodRadioOptions}
+                onChange={this.handleSelectMethodChange}
+                value={selectMethod}
+              />
+            </div>
 
-          <div className="sendReportItem">
-            <span className="inputText">自定义</span>
-            <Input
-              className="sendReportItemSelect"
-              placeholder="检索条件"
-              // defaultVal={task_name}
-              onValueChange={() => {}}
+            <div className="sendReportItem">
+              <Button
+                type="primary"
+                onClick={() => {
+                  this.handleGetDiffResult();
+                  this.setState({
+                    hiddenFilter: true,
+                  });
+                }}
+              >
+                开始对比
+              </Button>
+            </div>
+          </div>
+        )}
+        {hiddenFilter && (
+          <div
+            style={{
+              textAlign: "center",
+              position: "absolute",
+              left: "50%",
+              top: "140px",
+            }}
+          >
+            <DownCircleOutlined
+              onClick={() => {
+                this.setState({
+                  hiddenFilter: false,
+                });
+              }}
             />
           </div>
-          <div className="sendReportItem">
-            <Button type="primary" onClick={() => {}}>
-              开始对比
-            </Button>
+        )}
+        {!hiddenFilter && (
+          <div
+            style={{
+              textAlign: "center",
+              position: "absolute",
+              left: "50%",
+              top: "140px",
+            }}
+          >
+            <UpCircleOutlined
+              onClick={() => {
+                this.setState({
+                  hiddenFilter: true,
+                });
+              }}
+            />
           </div>
-        </div>
+        )}
+      </div>
+    );
+  };
+
+  renderDiffFileds = () => {
+    return (
+      <>
+        <div>新增字段：</div>
+        <div>修改字段：</div>
+        <div>删除字段：</div>
       </>
     );
   };
 
   render() {
-    const { hasTaskId, diffResultList, columns } = this.state;
-    console.log("diffResultList.length", diffResultList.length);
+    const { hasTaskId, diffResultList, modalWidth, modalHeight } = this.state;
     return (
       <div className="rightCon sendReport">
         {this.renderBreadcrumb()}
         {!hasTaskId && this.renderForm()}
-        {/* {hasTaskId && <Button type="primary" style={{margin: '20px 0 20px 0'}}>返回任务列表</Button>} */}
         {hasTaskId && (
           <div
             style={{
@@ -327,27 +422,39 @@ class HandleDiff extends React.Component {
             </Button>
           </div>
         )}
-        {hasTaskId && (
-          <Modal
-            title="对比结果"
-            width={1000}
-            maskClosable={false}
+        <Modal
+          title="对比结果"
+          width={modalWidth}
+          maskClosable={false}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={null}
+          style={{ height: `${modalHeight}px`, position: "fixed", top: 0 }}
+        >
+          <JsonDiffJsx
+            modalWidth={modalWidth}
+            modalHeight={modalHeight}
             visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            footer={null}
-          >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </Modal>
-        )}
+            handleOk={this.handleOk}
+            handleCancel={this.handleCancel}
+            json1={this.state.json1}
+            json2={this.state.json2}
+            diffResStyle={this.state.diffResStyle}
+          />
+          {this.renderDiffFileds()}
+        </Modal>
         {diffResultList.length > 0 && (
-          <Table
-            pagination={false}
-            columns={columns}
+          <DiffResultList
             dataSource={diffResultList}
-            size="small"
+            scanDiffRes={(all) => {
+              console.log("all", all);
+              this.setState({
+                visible: true,
+                json_master: all.result.json_master,
+                json_test: all.result.json_test,
+              });
+            }}
           />
         )}
       </div>

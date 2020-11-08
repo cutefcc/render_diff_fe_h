@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import * as actions from "store/actions";
 import TopHeader from "components/header";
-import MainPage from "components/Content/MainPage";
+// import MainPage from "components/Content/MainPage";
 import NewProject from "components/Content/NewProject";
 import AllTask from "components/Content/AllTask";
 import HandleDiff from "components/Content/HandleDiff";
@@ -29,8 +29,8 @@ function App(props) {
         <TopHeader />
         <div className="mainContainer">
           <LeftNav />
-          <Route path="/" exact component={MainPage} />
-          <Route path="/mainPage" component={MainPage} />
+          <Route path="/" exact component={HandleDiff} />
+          {/* <Route path="/mainPage" component={HandleDiff} /> */}
           <Route path="/newProject" component={NewProject} />
           <Route path="/allTask" component={AllTask} />
           <Route path="/handleDiff" component={HandleDiff} />
