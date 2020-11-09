@@ -217,7 +217,7 @@ class HandleDiff extends React.Component {
 
   renderBreadcrumb = () => (
     <RightConBreadcrumb
-      text={this.state.hasTaskId ? "任务列表 / 详情" : "任务列表"}
+      text={this.state.hasTaskId ? "对比测试 / 详情" : "对比测试"}
     />
   );
 
