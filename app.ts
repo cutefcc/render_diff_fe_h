@@ -19,10 +19,12 @@ server
       historyApiFallback({
         index: "/index.html",
         whiteList: [
-          "/api/newProject", //进入已有项目环境，进行渲染diff接口
-          "/api/getAllTask", //获取任务列表
-          "/api/getDiffResult", //查看diff结果
-          "/api/newTask", //进入已有项目环境，进行渲染diff
+          "/api/newProject", // 进入已有项目环境，进行渲染diff接口
+          "/api/getAllTask", // 获取任务列表
+          "/api/getDiffResult", // 查看diff结果
+          "/api/newTask", // 进入已有项目环境，进行渲染diff
+          "/api/getDiffResultTotal", // diff result total
+          "/api/getDiffTypeResult",
         ], //'/', '/api', '/index','/test'
         // rewrites: [{
         //     from: '.*',

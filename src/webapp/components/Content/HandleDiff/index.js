@@ -11,7 +11,7 @@ import RightConSubTitle from "commonComponents/RightConSubTitle";
 import { senceConfig, productsConfig } from "constants/index";
 import { getUrlParams } from "utils/index";
 import * as actions from "store/actions";
-import { Radio, Select, Input, Button, Modal } from "antd";
+import { Radio, Select, Input, Button, Modal, message } from "antd";
 import { UpCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
 const { Option } = Select;
 import "./index.less";
@@ -54,6 +54,7 @@ class HandleDiff extends React.Component {
       modalWidth: 1000,
       modalHeight: 1000,
       hiddenFilter: false,
+      diffResultTotal: {},
       diffResStyle: {
         a: {
           background: "rgba(151,234,151,.6)",
@@ -148,6 +149,7 @@ class HandleDiff extends React.Component {
     this.getAllTaskInfo();
     this.handleHasTaskId();
     this.setModalWidthHeight();
+    this.getDiffResultTotal();
   }
 
   setModalWidthHeight = () => {
@@ -176,7 +178,6 @@ class HandleDiff extends React.Component {
         return resp.json();
       })
       .then((res = {}) => {
-        console.log("res=====", res);
         const {
           code,
           data: { list },
@@ -192,6 +193,57 @@ class HandleDiff extends React.Component {
           });
         }
       });
+  };
+
+  getDiffCount = (task_id, page_id, res_type) => {
+    fetch(
+      `/api/getDiffTypeResult?task_id=${task_id}&page_id=${page_id}&res_type=${res_type}`
+    )
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((res) => {
+        console.log("res-----", res);
+        // if (res.code === 0) {
+        // }
+      });
+  };
+
+  getDiffResultTotal = () => {
+    const urlObj = getUrlParams();
+    if (urlObj.task_id) {
+      fetch(`/api/getDiffResultTotal?task_id=${urlObj.task_id}`)
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((res) => {
+          if (res.code === 0) {
+            const { firstview, msg = "" } = res.data;
+            if (JSON.stringify(firstview) === "{}") {
+              message.warn(msg);
+            } else {
+              const diffResultTotal = JSON.parse(firstview);
+              const {
+                // total_log = 0,
+                diff_count = 0,
+                // nilresponse_count = 0,
+                // erron500_count = 0,
+              } = diffResultTotal;
+              if (diff_count !== 0) {
+                // 请求diff_count 表格数据
+                this.getDiffCount(urlObj.task_id, 2, "diff");
+              }
+              // if (nilresponse_count !== 0) {
+              //   // nilresponse_count 表格数据
+              // }
+              // if (erron500_count !== 0) {
+              //   // nilresponse_count 表格数据
+              // }
+              this.setState({ diffResultTotal });
+            }
+          }
+        });
+    }
   };
 
   getAllTaskInfo = () => {
@@ -255,6 +307,27 @@ class HandleDiff extends React.Component {
     this.setState({
       visible: false,
     });
+  };
+
+  renderHeaderTotalArea = () => {
+    const { diffResultTotal } = this.state;
+    return (
+      <div>
+        <RightConSubTitle text="" />
+        <div className="inputArea">
+          <div className="sendReportItem">
+            {Object.keys(diffResultTotal).map((key) => {
+              return (
+                <span key={key} style={{ marginRight: "20px" }}>
+                  {key}：
+                  <span style={{ color: "red" }}>{diffResultTotal[key]}</span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   renderForm = () => {
@@ -400,27 +473,31 @@ class HandleDiff extends React.Component {
     return (
       <div className="rightCon sendReport">
         {this.renderBreadcrumb()}
+        {/* {hasTaskId && this.renderHeaderTotalArea()} */}
         {!hasTaskId && this.renderForm()}
         {hasTaskId && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              marginBottom: "10px",
-              marginTop: "-28px",
-            }}
-          >
-            <Button
-              size={"small"}
-              type="primary"
-              style={{ margin: "0 0 10px 0" }}
-              onClick={() => {
-                this.props.history.push(`/allTask`);
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row-reverse",
+                marginBottom: "10px",
+                marginTop: "-28px",
               }}
             >
-              返回
-            </Button>
-          </div>
+              <Button
+                size={"small"}
+                type="primary"
+                style={{ margin: "0 0 10px 0" }}
+                onClick={() => {
+                  this.props.history.push(`/allTask`);
+                }}
+              >
+                返回
+              </Button>
+            </div>
+            {this.renderHeaderTotalArea()}
+          </>
         )}
         <Modal
           title="对比结果"

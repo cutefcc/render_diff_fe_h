@@ -11,6 +11,8 @@ import {
 } from "../ioc";
 import { host, port } from "../constant/config";
 import * as queryString from "query-string";
+import fetch from "cross-fetch";
+const FormData = require("form-data");
 const urlPrefix = `${host}:${port}/`;
 
 @provideThrowable(TYPE.Controller, "ApiController")
@@ -45,7 +47,7 @@ export default class ApiController implements interfaces.Controller {
           branch: "测试分支0",
           time: "2020/10/29 12:05:49",
           if_successed: true,
-          task_id: 1,
+          task_id: 138,
           status: 0, // 0 部署中 1 正常
         },
         {
@@ -132,6 +134,65 @@ export default class ApiController implements interfaces.Controller {
     };
     ctx.body = res;
   }
+  @httpGet("/getDiffResultTotal")
+  private async getDiffResultTotal(
+    ctx: Router.IRouterContext,
+    next: () => Promise<any>
+  ): Promise<any> {
+    let res: object = {
+      code: 0,
+      data: "请求失败",
+    };
+    const {
+      request: {
+        query: { task_id },
+      },
+    } = ctx;
+    const url: string = `${urlPrefix}diffresult?task_id=${task_id}`;
+    try {
+      const result: Promise<Object> = await this.apiService.getInfo(url);
+      res = {
+        code: 0,
+        data: result,
+      };
+    } catch {
+      res = {
+        code: 1,
+        message: "接口返回错误",
+      };
+    }
+    ctx.body = res;
+  }
+  @httpGet("/getDiffTypeResult")
+  private async getDiffTypeResult(
+    ctx: Router.IRouterContext,
+    next: () => Promise<any>
+  ): Promise<any> {
+    let res: object = {
+      code: 0,
+      data: "请求失败",
+    };
+    const {
+      request: {
+        query: { task_id, page_id, res_type },
+      },
+    } = ctx;
+    const url: string = `${urlPrefix}difftyperesult?task_id=${task_id}&page_id=${page_id}&res_type=${res_type}`;
+    console.log("url---", url);
+    try {
+      const result: Promise<Object> = await this.apiService.getInfo(url);
+      res = {
+        code: 0,
+        data: result,
+      };
+    } catch {
+      res = {
+        code: 1,
+        message: "接口返回错误",
+      };
+    }
+    ctx.body = res;
+  }
   @httpGet("/getDiffResult")
   private async getDiffResult(
     ctx: Router.IRouterContext,
@@ -139,7 +200,7 @@ export default class ApiController implements interfaces.Controller {
   ): Promise<any> {
     let query = ctx.request.body;
     // get 参数获取方式： ctx.request.query
-    console.log("ctx.request.query", ctx.request.query);
+    // console.log("ctx.request.query", ctx.request.query);
     const {
       request: {
         query: { task_id, page_id, page_size },
@@ -244,29 +305,32 @@ export default class ApiController implements interfaces.Controller {
     let query = ctx.request.body;
     let res: object = {
       code: 0,
+      data: "请求失败",
     };
     const { projectName: project_name, branch } = query;
-    const params: object = {
-      project_name,
-      branch,
-    };
-    const url: string = `${urlPrefix}new_project`;
-    // const url: string = `http://localhost:3001/api/posttest`; // test code
-    const opts: object = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    };
-    try {
-      this.apiService.getInfo(url, opts);
-    } catch {
-      res = {
-        code: 1,
-        message: "接口错误",
-      };
-    }
-    ctx.body = res;
+    const url: string = `${urlPrefix}newproject`;
+    let form = new FormData();
+    form.append("project_name", project_name);
+    form.append("branch", branch);
+
+    await fetch(url, { method: "POST", body: form })
+      .then((res) => res.text())
+      .then((body) => {
+        if (body === "succeed") {
+          ctx.body = {
+            code: 0,
+            data: body,
+          };
+        } else {
+          ctx.body = {
+            code: 1,
+            data: String(body),
+          };
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        ctx.body = res;
+      });
   }
 }

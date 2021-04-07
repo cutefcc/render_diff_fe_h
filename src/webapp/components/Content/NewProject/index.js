@@ -38,7 +38,7 @@ class NewProject extends React.Component {
     });
   };
 
-  btnClick = () => {
+  deployBtnClick = () => {
     const { projectName, branch } = this.state;
     fetch("/api/newProject", {
       method: "POST",
@@ -54,13 +54,14 @@ class NewProject extends React.Component {
         return resp.json();
       })
       .then((res) => {
-        console.log("resp", res);
         if (res.code === 0) {
-          message.success("部署中");
+          message.success(res.data);
           this.setState({
             projectName: "",
             branch: "",
           });
+        } else {
+          message.warn(res.data);
         }
       });
   };
@@ -96,7 +97,7 @@ class NewProject extends React.Component {
           <div style={{ marginLeft: "88px", marginTop: "10px" }}>
             <Button
               type="primary"
-              onClick={this.btnClick}
+              onClick={this.deployBtnClick}
               style={{ marginRight: "20px" }}
             >
               部署环境
