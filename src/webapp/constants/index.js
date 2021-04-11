@@ -94,4 +94,28 @@ const productsConfig = [
   { label: "直播伴随产品", value: "liveaccompaniedad" },
   { label: "品牌大视窗", value: "BrandView" },
 ];
-export { moduleConfig, types, senceConfig, productsConfig };
+const interfaceConfig = [
+  { label: "trends/gateway", value: "trends_gateway" },
+  { label: "render_v2/gateway", value: "render_v2_gateway" },
+];
+const optimizationObjectiveConfig = [
+  { label: "86004001", value: "86004001" },
+  { label: "86004002", value: "86004002" },
+  { label: "86004003", value: "86004003" },
+  { label: "86004004", value: "86004004" },
+];
+const promotionObjectiveConfig = [
+  { label: "88030001", value: "88030001" },
+  { label: "88030002", value: "88030002" },
+  { label: "88030003", value: "88030003" },
+  { label: "88030004", value: "88030004" },
+];
+export {
+  moduleConfig,
+  types,
+  senceConfig,
+  productsConfig,
+  interfaceConfig,
+  optimizationObjectiveConfig,
+  promotionObjectiveConfig,
+};

@@ -8,7 +8,13 @@ import RightConBreadcrumb from "commonComponents/RightConBreadcrumb";
 import JsonDiffJsx from "commonComponents/JsonDiffJsx";
 import DiffResultList from "commonComponents/DiffResultList";
 import RightConSubTitle from "commonComponents/RightConSubTitle";
-import { senceConfig, productsConfig } from "constants/index";
+import {
+  senceConfig,
+  productsConfig,
+  interfaceConfig,
+  optimizationObjectiveConfig,
+  promotionObjectiveConfig,
+} from "constants/index";
 import { getUrlParams } from "utils/index";
 import * as actions from "store/actions";
 import { Radio, Select, Input, Button, Modal, message } from "antd";
@@ -18,6 +24,7 @@ import "./index.less";
 const downloadTypeEadioOptions = [
   { label: "是", value: "yes" },
   { label: "否", value: "no" },
+  { label: "不限", value: "noLimit" },
 ];
 const selectMethodRadioOptions = [
   { label: "包含", value: "yes" },
@@ -33,6 +40,21 @@ const renderProductsOptions = () => {
     return <Option key={item.value}>{item.label}</Option>;
   });
 };
+const renderOptimizationObjectiveOptions = () => {
+  return optimizationObjectiveConfig.map((item) => {
+    return <Option key={item.value}>{item.label}</Option>;
+  });
+};
+const renderPromotionObjectiveOptions = () => {
+  return promotionObjectiveConfig.map((item) => {
+    return <Option key={item.value}>{item.label}</Option>;
+  });
+};
+const renderInterfaceOptions = () => {
+  return interfaceConfig.map((item) => {
+    return <Option key={item.value}>{item.label}</Option>;
+  });
+};
 
 @withRouter
 @autobind
@@ -41,7 +63,7 @@ class HandleDiff extends React.Component {
     super(props);
     this.state = {
       projectLists: [],
-      downloadType: "yes",
+      downloadType: "noLimit",
       selectMethod: "yes",
       urlParams: {},
       hasTaskId: false,
@@ -346,7 +368,27 @@ class HandleDiff extends React.Component {
             >
               {renderProductsOptions()}
             </Select>
+            <span className="inputText">接口列表</span>
+            <Select
+              defaultValue="trends_gateway"
+              onChange={() => {}}
+              className="sendReportItemSelect"
+              // value={"1"}
+            >
+              {renderInterfaceOptions()}
+            </Select>
           </div>
+          {/* <div className="sendReportItem">
+            <span className="inputText">接口列表</span>
+            <Select
+              defaultValue="trends_gateway"
+              onChange={() => {}}
+              className="sendReportItemSelect"
+              // value={"1"}
+            >
+              {renderInterfaceOptions()}
+            </Select>
+          </div> */}
         </div>
         <RightConSubTitle text="筛选条件" />
         {!hiddenFilter && (
@@ -375,6 +417,32 @@ class HandleDiff extends React.Component {
                 onChange={() => {}}
               >
                 {renderProductsOptions()}
+              </Select>
+            </div>
+            <div className="sendReportItem">
+              <span className="inputText">营销目标</span>
+              <Select
+                // mode="multiple"
+                className="sendReportItemSelect"
+                allowClear
+                style={{ minWidth: "200px" }}
+                // placeholder="Please select"
+                defaultValue="86004001"
+                onChange={() => {}}
+              >
+                {renderOptimizationObjectiveOptions()}
+              </Select>
+              <span className="inputText">投放目标</span>
+              <Select
+                // mode="multiple"
+                className="sendReportItemSelect"
+                allowClear
+                style={{ minWidth: "200px" }}
+                // placeholder="Please select"
+                defaultValue={"88030001"}
+                onChange={() => {}}
+              >
+                {renderPromotionObjectiveOptions()}
               </Select>
             </div>
             <div className="sendReportItem">
