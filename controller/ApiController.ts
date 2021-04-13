@@ -47,7 +47,7 @@ export default class ApiController implements interfaces.Controller {
           branch: "测试分支0",
           time: "2020/10/29 12:05:49",
           if_successed: true,
-          task_id: 138,
+          task_id: 184,
           status: 0, // 0 部署中 1 正常
         },
         {
@@ -327,6 +327,44 @@ export default class ApiController implements interfaces.Controller {
             data: String(body),
           };
         }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        ctx.body = res;
+      });
+  }
+  @httpPost("/new_task")
+  private async new_task(
+    ctx: Router.IRouterContext,
+    next: () => Promise<any>
+  ): Promise<any> {
+    let query = ctx.request.body;
+    let res: object = {
+      code: 0,
+      data: "请求失败",
+    };
+    // const { projectName: project_name, branch } = query;
+    const url: string = `${urlPrefix}new_task?project=addenvs_info2`;
+    let form = new FormData();
+    form.append("black_white_list", {
+      service: ["groupfeed", "main_feed"],
+      product: ["wax", "sfst"],
+      is_download: 0,
+      is_filter: 0,
+    });
+
+    await fetch(url, {
+      method: "GET",
+      body: JSON.stringify({
+        service: ["groupfeed", "main_feed"],
+        product: ["wax", "sfst"],
+        is_download: 0,
+        is_filter: 0,
+      }),
+    })
+      .then((res) => res.text())
+      .then((body) => {
+        console.log("dddddddddd", body);
       })
       .catch((err) => {
         console.log("err", err);

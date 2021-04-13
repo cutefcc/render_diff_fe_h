@@ -24,17 +24,31 @@ function DiffResultList(props) {
         return <>{is_filtered === "include" ? "包含" : "不包含"}</>;
       },
     },
+    // {
+    //   title: "筛选条件",
+    //   dataIndex: "all",
+    //   render: (all) => {
+    //     return (
+    //       <>
+    //         {all.is_filtered === "include"
+    //           ? JSON.stringify(all.white_list)
+    //           : JSON.stringify(all.black_list)}
+    //       </>
+    //     );
+    //   },
+    // },
     {
-      title: "筛选条件",
-      dataIndex: "all",
-      render: (all) => {
-        return (
-          <>
-            {all.is_filtered === "include"
-              ? JSON.stringify(all.white_list)
-              : JSON.stringify(all.black_list)}
-          </>
-        );
+      title: "white_list",
+      dataIndex: "white_list",
+      render: (white_list) => {
+        return <>{JSON.stringify(white_list)}</>;
+      },
+    },
+    {
+      title: "black_list",
+      dataIndex: "black_list",
+      render: (black_list) => {
+        return <>{JSON.stringify(black_list)}</>;
       },
     },
     {

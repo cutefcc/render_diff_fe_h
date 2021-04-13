@@ -76,7 +76,7 @@ class LeftNav extends React.Component {
             }}
             icon={<DesktopOutlined />}
           >
-            任务列表
+            项目列表
           </Menu.Item>
           <Menu.Item
             key="4"
@@ -86,7 +86,7 @@ class LeftNav extends React.Component {
             }}
             icon={<DesktopOutlined />}
           >
-            对比测试
+            创建任务
           </Menu.Item>
 
           {/* 

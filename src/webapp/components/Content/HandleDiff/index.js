@@ -193,6 +193,27 @@ class HandleDiff extends React.Component {
     }
   };
 
+  handleNewTask = () => {
+    fetch("/api/new_task", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // projectName,
+        // branch,
+      }),
+    })
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((res) => {
+        if (res.code === 0) {
+          console.log("909090909");
+        }
+      });
+  };
+
   handleGetDiffResult = (task_id) => {
     const { size } = this.state;
     fetch(`/api/getDiffResult?task_id=${task_id}&page_id=0&page_size=${size}`)
@@ -475,6 +496,8 @@ class HandleDiff extends React.Component {
               <Button
                 type="primary"
                 onClick={() => {
+                  // 开始对比： 新建渲染diff任务
+                  this.handleNewTask();
                   this.handleGetDiffResult();
                   this.setState({
                     hiddenFilter: true,
