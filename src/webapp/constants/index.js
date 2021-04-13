@@ -99,16 +99,24 @@ const interfaceConfig = [
   { label: "render_v2/gateway", value: "render_v2_gateway" },
 ];
 const optimizationObjectiveConfig = [
+  { label: "86001002", value: "86001002" },
+  { label: "86002002", value: "86002002" },
+  { label: "86002001", value: "86002001" },
+  { label: "86002003", value: "86002003" },
+  { label: "86002004", value: "86002004" },
   { label: "86004001", value: "86004001" },
   { label: "86004002", value: "86004002" },
-  { label: "86004003", value: "86004003" },
-  { label: "86004004", value: "86004004" },
+  { label: "86005001", value: "86005001" },
+  { label: "86007001", value: "86007001" },
+  { label: "86007002", value: "86007002" },
 ];
 const promotionObjectiveConfig = [
   { label: "88030001", value: "88030001" },
   { label: "88030002", value: "88030002" },
   { label: "88030003", value: "88030003" },
   { label: "88030004", value: "88030004" },
+  { label: "88030005", value: "88030005" },
+  { label: "88030006", value: "88030006" },
 ];
 export {
   moduleConfig,

@@ -443,27 +443,29 @@ class HandleDiff extends React.Component {
             <div className="sendReportItem">
               <span className="inputText">营销目标</span>
               <Select
-                // mode="multiple"
-                className="sendReportItemSelect"
+                mode="multiple"
+                // className="sendReportItemSelect"
                 allowClear
                 style={{ minWidth: "200px" }}
                 // placeholder="Please select"
                 defaultValue="86004001"
                 onChange={() => {}}
               >
-                {renderOptimizationObjectiveOptions()}
+                {renderPromotionObjectiveOptions()}
               </Select>
-              <span className="inputText">投放目标</span>
+            </div>
+            <div className="sendReportItem">
+              <span className="inputText">优化目标</span>
               <Select
-                // mode="multiple"
-                className="sendReportItemSelect"
+                mode="multiple"
+                // className="sendReportItemSelect"
                 allowClear
                 style={{ minWidth: "200px" }}
                 // placeholder="Please select"
                 defaultValue={"88030001"}
                 onChange={() => {}}
               >
-                {renderPromotionObjectiveOptions()}
+                {renderOptimizationObjectiveOptions()}
               </Select>
             </div>
             <div className="sendReportItem">
@@ -504,7 +506,7 @@ class HandleDiff extends React.Component {
                   });
                 }}
               >
-                开始对比
+                新建任务
               </Button>
             </div>
           </div>
