@@ -420,8 +420,8 @@ class HandleDiff extends React.Component {
                 mode="multiple"
                 allowClear
                 style={{ minWidth: "200px" }}
-                // placeholder="Please select"
-                defaultValue={["mainfeed"]}
+                placeholder="非必填"
+                // defaultValue={["mainfeed"]}
                 onChange={() => {}}
               >
                 {renderSenceOptions()}
@@ -433,8 +433,8 @@ class HandleDiff extends React.Component {
                 mode="multiple"
                 allowClear
                 style={{ minWidth: "200px" }}
-                // placeholder="Please select"
-                defaultValue={["Sfst"]}
+                placeholder="非必填"
+                // defaultValue={["Sfst"]}
                 onChange={() => {}}
               >
                 {renderProductsOptions()}
@@ -447,8 +447,8 @@ class HandleDiff extends React.Component {
                 // className="sendReportItemSelect"
                 allowClear
                 style={{ minWidth: "200px" }}
-                // placeholder="Please select"
-                defaultValue="86004001"
+                placeholder="非必填"
+                // defaultValue="86004001"
                 onChange={() => {}}
               >
                 {renderPromotionObjectiveOptions()}
@@ -461,8 +461,8 @@ class HandleDiff extends React.Component {
                 // className="sendReportItemSelect"
                 allowClear
                 style={{ minWidth: "200px" }}
-                // placeholder="Please select"
-                defaultValue={"88030001"}
+                placeholder="非必填"
+                // defaultValue={"88030001"}
                 onChange={() => {}}
               >
                 {renderOptimizationObjectiveOptions()}
@@ -480,7 +480,7 @@ class HandleDiff extends React.Component {
               <span className="inputText">自定义</span>
               <Input
                 className="sendReportItemSelect"
-                placeholder="检索条件"
+                placeholder="非必填"
                 // defaultVal={task_name}
                 onValueChange={() => {}}
               />
