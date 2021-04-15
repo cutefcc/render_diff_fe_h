@@ -11,7 +11,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && npm run lint"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "keywords": [],
@@ -26,6 +26,7 @@
     "cross-fetch": "^3.0.6",
     "form-data": "^4.0.0",
     "json-pretty-html": "^1.1.6",
+    "jsoneditor": "^9.3.1",
     "key-mirror": "^1.0.1",
     "koa-bodyparser": "^4.2.1",
     "koa-static": "^5.0.0",

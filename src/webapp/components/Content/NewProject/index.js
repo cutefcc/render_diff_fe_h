@@ -9,6 +9,7 @@ import RightConSubTitle from "commonComponents/RightConSubTitle";
 // import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
 import { Input, Button, message } from "antd";
+// import jsoneditor from "jsoneditor";
 import "./index.less";
 
 @withRouter
@@ -22,7 +23,85 @@ class NewProject extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const containerLeft = document.getElementById("containerLeft");
+    const containerRight = document.getElementById("containerRight");
+
+    function onClassName({ path, field, value }) {
+      const leftValue = _.get(jsonRight, path);
+      const rightValue = _.get(jsonLeft, path);
+
+      return _.isEqual(leftValue, rightValue)
+        ? "the_same_element"
+        : "different_element";
+    }
+
+    const optionsLeft = {
+      mode: "tree",
+      modes: ["code", "form", "text", "tree", "view", "preview"],
+      onError: function (err) {
+        alert(err.toString());
+      },
+      onClassName: onClassName,
+      onChangeJSON: function (j) {
+        jsonLeft = j;
+        window.editorRight.refresh();
+      },
+    };
+
+    const optionsRight = {
+      mode: "tree",
+      modes: ["code", "form", "text", "tree", "view", "preview"],
+      onError: function (err) {
+        alert(err.toString());
+      },
+      onClassName: onClassName,
+      onChangeJSON: function (j) {
+        jsonRight = j;
+        window.editorLeft.refresh();
+      },
+    };
+
+    let jsonLeft = {
+      arrayOfArrays: [1, 2, 999, [3, 4, 5]],
+      someField: true,
+      boolean: true,
+      htmlcode: "&quot;",
+      escaped_unicode: "\\u20b9",
+      unicode: "\u20b9,\uD83D\uDCA9",
+      return: "\n",
+      null: null,
+      thisObjectDoesntExistOnTheRight: { key: "value" },
+      number: 123,
+      object: { a: "b", new: 4, c: "d", e: [1, 2, 3] },
+      string: "Hello World",
+      url: "http://jsoneditoronline.org",
+      "[0]": "zero",
+    };
+
+    let jsonRight = {
+      arrayOfArrays: [1, 2, [3, 4, 5]],
+      boolean: true,
+      htmlcode: "&quot;",
+      escaped_unicode: "\\u20b9",
+      thisFieldDoesntExistOnTheLeft: "foobar",
+      unicode: "\u20b9,\uD83D\uDCA9",
+      return: "\n",
+      null: null,
+      number: 123,
+      object: { a: "b", c: "d", e: [1, 2, 3] },
+      string: "Hello World",
+      url: "http://jsoneditoronline.org",
+      "[0]": "zero",
+    };
+
+    window.editorLeft = new JSONEditor(containerLeft, optionsLeft, jsonLeft);
+    window.editorRight = new JSONEditor(
+      containerRight,
+      optionsRight,
+      jsonRight
+    );
+  }
 
   renderBreadcrumb = () => <RightConBreadcrumb text="新建项目" />;
 
@@ -109,11 +188,21 @@ class NewProject extends React.Component {
     );
   };
 
+  renderJsonEditor = () => {
+    return (
+      <div id="wrapper">
+        <div id="containerLeft"></div>
+        <div id="containerRight"></div>
+      </div>
+    );
+  };
+
   render() {
     return (
       <div className="rightCon sendReport">
         {this.renderBreadcrumb()}
         {this.renderForm()}
+        {this.renderJsonEditor()}
       </div>
     );
   }
