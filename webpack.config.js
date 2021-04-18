@@ -39,6 +39,11 @@ let webpackConfig = {
           },
           {
             loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[local]___[hash:base64:5]",
+              },
+            },
           },
           {
             loader: "less-loader",

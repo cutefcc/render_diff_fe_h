@@ -4,29 +4,29 @@ import RightConSubTitle from "commonComponents/RightConSubTitle";
 import { Input, Button } from "antd";
 const { TextArea } = Input;
 import prettyHtml from "json-pretty-html";
-import "./index.less";
+import styles from "./index.less";
 
 function JsonShow(props) {
   const { jsonStr = "", json, onJsonChange, title = "" } = props;
   return (
     <>
       <RightConSubTitle text={title} />
-      <div className="jsonEdit">
+      <div className={styles.jsonEdit}>
         <TextArea
           style={{ width: "50%", borderBottomLeftRadius: "5px" }}
           allowClear
           onChange={onJsonChange}
           value={jsonStr}
-          className="textAreaDiv"
+          className={styles.textAreaDiv}
         ></TextArea>
         <div
-          className="jsonShow"
+          className={styles.jsonShow}
           dangerouslySetInnerHTML={{
             __html: json === "" ? "" : prettyHtml(json),
           }}
         ></div>
       </div>
-      <div className="bottomBtn">
+      <div className={styles.bottomBtn}>
         <Button
           type="primary"
           style={{ borderRadius: "5px", marginLeft: "20px" }}

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Select } from "antd";
 
 const { Option } = Select;
-import "./index.less";
+import styles from "./index.less";
 
 function SearchInput(props) {
   const {
@@ -47,7 +47,7 @@ function SearchInput(props) {
         showSearch
         value={value}
         placeholder={placeholder}
-        className={csName}
+        className={styles[csName]}
         defaultActiveFirstOption={false}
         showArrow={false}
         filterOption={false}

@@ -3,9 +3,8 @@ import { withRouter } from "react-router-dom";
 import { Layout } from "antd";
 import { connect } from "react-redux";
 import autobind from "autobind-decorator";
-// import * as actions from "../../store/actions";
 import * as R from "ramda";
-import "./index.less";
+import styles from "./index.less";
 const { Header } = Layout;
 @withRouter
 @autobind
@@ -23,10 +22,12 @@ class TopHeader extends React.Component {
     //   (item) => item.key === checkedNav
     // );
     return (
-      <Header className="topHeader">
-        <div className="logo" onClick={this.handleLogoClick}>
-          <img className="logoImg" src="./static/img/weibo_logo.png" />
-          {!leftNavStatus && <div className="logoText">渲染DIFF平台</div>}
+      <Header className={styles.topHeader}>
+        <div className={styles.logo} onClick={this.handleLogoClick}>
+          <img className={styles.logoImg} src="./static/img/weibo_logo.png" />
+          {!leftNavStatus && (
+            <div className={styles.logoText}>渲染DIFF平台</div>
+          )}
         </div>
       </Header>
     );

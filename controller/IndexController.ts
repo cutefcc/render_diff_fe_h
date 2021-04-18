@@ -22,7 +22,6 @@ export default class IndexController implements interfaces.Controller {
     ctx: Router.IRouterContext,
     next: () => Promise<any>
   ): Promise<any> {
-    console.log("index===");
     ctx.body = await ctx.render("index.html"); // 这是 CSR 客户端渲染模式，node 层 吐一个空的 页面，再发ajax->node->后端，vue渲染页面
   }
 }

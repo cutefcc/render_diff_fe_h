@@ -1,0 +1,44 @@
+@import "../../../global.less";
+.datadiffContainer {
+  display: flex;
+  width: 100%;
+  .leftContainer {
+    width: 50%;
+  }
+  .rightContainer {
+    width: 50%;
+  }
+}
+
+:global {
+  code {
+    background-color: #f5f5f5;
+  }
+  #containerLeft {
+    display: inline-block;
+    // width: 500px;
+    height: 500px;
+    margin-right: 10px;
+  }
+
+  #containerRight {
+    display: inline-block;
+    // width: 500px;
+    height: 500px;
+  }
+  #containerRight .different_element {
+    background-color: #acee61;
+  }
+  #containerRight .different_element div.jsoneditor-field,
+  #containerRight .different_element div.jsoneditor-value {
+    color: red;
+  }
+
+  #containerLeft .different_element {
+    background-color: pink;
+  }
+  #containerLeft .different_element div.jsoneditor-field,
+  #containerLeft .different_element div.jsoneditor-value {
+    color: red;
+  }
+}

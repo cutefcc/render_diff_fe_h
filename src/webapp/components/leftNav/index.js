@@ -6,15 +6,13 @@ import * as R from "ramda";
 import autobind from "autobind-decorator";
 import { Menu, Button } from "antd";
 import {
-  // AppstoreOutlined,
   ContainerOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   DesktopOutlined,
-  // MailOutlined,
 } from "@ant-design/icons";
 
-import "./index.less";
+import styles from "./index.less";
 
 @withRouter
 @autobind
@@ -56,50 +54,49 @@ class LeftNav extends React.Component {
           mode="inline"
           theme="dark"
           inlineCollapsed={leftNavStatus}
-          className="menuUl"
+          className={styles.menuUl}
         >
-          <Menu.Item
-            key="2"
+          {/* <Menu.Item
+            key="4"
             onClick={() => {
               this.props.history.push("/newProject");
-              this.handleItemClick("2");
+              this.handleItemClick("4");
             }}
             icon={<ContainerOutlined />}
           >
             新建项目
+          </Menu.Item> */}
+          <Menu.Item
+            key="2"
+            onClick={() => {
+              this.props.history.push("/new_task");
+              this.handleItemClick("2");
+            }}
+            icon={<DesktopOutlined />}
+          >
+            新建任务
           </Menu.Item>
           <Menu.Item
             key="3"
             onClick={() => {
-              this.props.history.push("/allTask");
+              this.props.history.push("/all_task");
               this.handleItemClick("3");
             }}
             icon={<DesktopOutlined />}
           >
-            项目列表
-          </Menu.Item>
-          <Menu.Item
-            key="4"
-            onClick={() => {
-              this.props.history.push("/handleDiff");
-              this.handleItemClick("4");
-            }}
-            icon={<DesktopOutlined />}
-          >
-            创建任务
+            任务列表
           </Menu.Item>
 
-          {/* 
           <Menu.Item
             key="4"
             onClick={() => {
-              this.props.history.push("/countPage");
+              this.props.history.push("/data_diff");
               this.handleItemClick("4");
             }}
             icon={<ContainerOutlined />}
           >
-            统计页面展示
-          </Menu.Item> */}
+            数据对比
+          </Menu.Item>
         </Menu>
       </>
     );

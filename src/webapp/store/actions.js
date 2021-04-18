@@ -34,3 +34,9 @@ export function changeLeftNavStatus(status) {
 export function saveLeftNavCheckedMethod(fn) {
   return { type: types.SAVE_LEFTNAVCHECKEDMETHOD, payload: fn };
 }
+export function setJson1(json) {
+  return { type: types.SETJSON1, payload: json };
+}
+export function setJson2(json) {
+  return { type: types.SETJSON2, payload: json };
+}

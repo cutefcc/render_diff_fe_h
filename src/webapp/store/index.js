@@ -5,6 +5,8 @@ import myThunkMiddleware from "../middleware/myThunkMiddleware";
 import myLogMiddleware from "../middleware/myLogMiddleware";
 
 let initState = {
+  json1: {}, // 数据对比 json1
+  json2: {}, // 数据对比 json2
   info: {
     name: "小明",
     age: 28,

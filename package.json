@@ -7,6 +7,7 @@
     "dev": "tsnd --respawn ./app.ts",
     "client:dev": "webpack --mode development",
     "client:prod": "webpack --mode production",
+    "client:monit": "node ./monit.js monit",
     "lint": "eslint ./src/webapp"
   },
   "husky": {
@@ -43,6 +44,7 @@
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "shelljs": "^0.8.4",
     "test-cutefcc": "0.0.11",
     "url": "^0.11.0"
   },

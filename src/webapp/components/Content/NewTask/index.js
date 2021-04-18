@@ -19,8 +19,8 @@ import { getUrlParams } from "utils/index";
 import * as actions from "store/actions";
 import { Radio, Select, Input, Button, Modal, message } from "antd";
 import { UpCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
+import styles from "./index.less";
 const { Option } = Select;
-import "./index.less";
 const downloadTypeEadioOptions = [
   { label: "是", value: "yes" },
   { label: "否", value: "no" },
@@ -58,7 +58,7 @@ const renderInterfaceOptions = () => {
 
 @withRouter
 @autobind
-class HandleDiff extends React.Component {
+class NewTask extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +66,6 @@ class HandleDiff extends React.Component {
       downloadType: "noLimit",
       selectMethod: "yes",
       urlParams: {},
-      hasTaskId: false,
       page: 0,
       size: 10,
       diffResultList: [], // diff_result 返回的列表
@@ -168,8 +167,6 @@ class HandleDiff extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllTaskInfo();
-    this.handleHasTaskId();
     this.setModalWidthHeight();
     this.getDiffResultTotal();
   }
@@ -181,16 +178,6 @@ class HandleDiff extends React.Component {
       modalWidth: w,
       modalHeight: h,
     });
-  };
-
-  handleHasTaskId = () => {
-    const urlObj = getUrlParams();
-    if (urlObj.task_id) {
-      this.handleGetDiffResult(urlObj.task_id);
-      this.setState({
-        hasTaskId: true,
-      });
-    }
   };
 
   handleNewTask = () => {
@@ -247,6 +234,8 @@ class HandleDiff extends React.Component {
       })
       .then((res) => {
         console.log("res-----", res);
+        // if (res.code === 0) {
+        // }
       });
   };
 
@@ -287,31 +276,7 @@ class HandleDiff extends React.Component {
     }
   };
 
-  getAllTaskInfo = () => {
-    fetch("/api/getAllTask")
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((res) => {
-        if (res.code === 0) {
-          let len = res.data.length;
-          for (let i = 0; i <= len - 1; i++) {
-            res.data[i].sort = i;
-            res.data[i].key = i;
-          }
-          res.data;
-          this.setState({
-            projectLists: res.data,
-          });
-        }
-      });
-  };
-
-  renderBreadcrumb = () => (
-    <RightConBreadcrumb
-      text={this.state.hasTaskId ? "对比测试 / 详情" : "对比测试"}
-    />
-  );
+  renderBreadcrumb = () => <RightConBreadcrumb text="新建任务" />;
 
   handleProjectNameChange = (e) => {
     this.setState({
@@ -354,8 +319,8 @@ class HandleDiff extends React.Component {
     return (
       <div>
         <RightConSubTitle text="" />
-        <div className="inputArea">
-          <div className="sendReportItem">
+        <div className={styles.inputArea}>
+          <div className={styles.sendReportItem}>
             {Object.keys(diffResultTotal).map((key) => {
               return (
                 <span key={key} style={{ marginRight: "20px" }}>
@@ -374,147 +339,165 @@ class HandleDiff extends React.Component {
     const { downloadType, selectMethod, hiddenFilter } = this.state;
     return (
       <div style={{ position: "relative" }}>
-        <RightConSubTitle text="" />
-        <div className="inputArea">
-          <div className="sendReportItem">
-            <span className="inputText">从已有项目选择</span>
+        <div className={styles.inputArea}>
+          {/* 任务名称 */}
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>任务名称</span>
+            <Input
+              className={styles.sendReportItemSelect}
+              // placeholder="非必填"
+              // defaultVal={task_name}
+              onValueChange={() => {}}
+            />
+          </div>
+          {/* 接口列表 */}
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>接口列表</span>
+            <Select
+              defaultValue="trends_gateway"
+              onChange={() => {}}
+              className={styles.sendReportItemSelect}
+              // value={"1"}
+            >
+              {renderInterfaceOptions()}
+            </Select>
+          </div>
+          {/* 环境分支 */}
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>环境分支</span>
+            <Input
+              placeholder=""
+              // value={branch}
+              onChange={this.handleBranchChange}
+              className={styles.sendReportItemSelect}
+            />
+          </div>
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>已有环境</span>
             <Select
               defaultValue="Sfst"
               onChange={() => {}}
-              className="sendReportItemSelect"
+              className={styles.sendReportItemSelect}
               // value={"1"}
             >
               {renderProductsOptions()}
             </Select>
-            <span className="inputText">接口列表</span>
-            <Select
-              defaultValue="trends_gateway"
-              onChange={() => {}}
-              className="sendReportItemSelect"
-              // value={"1"}
-            >
-              {renderInterfaceOptions()}
-            </Select>
           </div>
-          {/* <div className="sendReportItem">
-            <span className="inputText">接口列表</span>
-            <Select
-              defaultValue="trends_gateway"
-              onChange={() => {}}
-              className="sendReportItemSelect"
-              // value={"1"}
-            >
-              {renderInterfaceOptions()}
-            </Select>
-          </div> */}
+          <RightConSubTitle text="筛选条件" />
+          {!hiddenFilter && (
+            <div className={styles.filter}>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>
+                  场&nbsp;&nbsp;&nbsp;&nbsp;景
+                </span>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{ minWidth: "200px" }}
+                  placeholder="非必填，多选"
+                  // defaultValue={["mainfeed"]}
+                  onChange={() => {}}
+                  className={styles.sendReportItemSelect}
+                >
+                  {renderSenceOptions()}
+                </Select>
+              </div>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>产品线</span>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{ minWidth: "200px" }}
+                  placeholder="非必填，多选"
+                  // defaultValue={["Sfst"]}
+                  onChange={() => {}}
+                  className={styles.sendReportItemSelect}
+                >
+                  {renderProductsOptions()}
+                </Select>
+              </div>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>营销目标</span>
+                <Select
+                  mode="multiple"
+                  // className={styles.sendReportItemSelect}
+                  allowClear
+                  style={{ minWidth: "200px" }}
+                  placeholder="非必填，多选"
+                  // defaultValue="86004001"
+                  onChange={() => {}}
+                  className={styles.sendReportItemSelect}
+                >
+                  {renderPromotionObjectiveOptions()}
+                </Select>
+              </div>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>优化目标</span>
+                <Select
+                  mode="multiple"
+                  // className={styles.sendReportItemSelect}
+                  allowClear
+                  style={{ minWidth: "200px" }}
+                  placeholder="非必填，多选"
+                  // defaultValue={"88030001"}
+                  onChange={() => {}}
+                  className={styles.sendReportItemSelect}
+                >
+                  {renderOptimizationObjectiveOptions()}
+                </Select>
+              </div>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>下载类型</span>
+                <Radio.Group
+                  options={downloadTypeEadioOptions}
+                  onChange={this.handleDownLoadTypeChange}
+                  value={downloadType}
+                  className={styles.sendReportItemSelect}
+                />
+              </div>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>自定义</span>
+                <Input
+                  className={styles.sendReportItemSelect}
+                  placeholder="非必填"
+                  // defaultVal={task_name}
+                  onValueChange={() => {}}
+                />
+              </div>
+              <div className={styles.sendReportItem}>
+                <span className={styles.inputText}>筛选方式</span>
+                <Radio.Group
+                  options={selectMethodRadioOptions}
+                  onChange={this.handleSelectMethodChange}
+                  value={selectMethod}
+                  className={styles.sendReportItemSelect}
+                />
+              </div>
+            </div>
+          )}
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>创建者</span>
+            <Input
+              className={`${styles.sendReportItemSelect} ${styles.creater}`}
+              placeholder="输入邮箱前缀，多个以逗号分格"
+              // defaultVal={task_name}
+              onValueChange={() => {}}
+            />
+          </div>
+          <div className={styles.sendReportItem}>
+            <Button type="primary" onClick={() => {}}>
+              <span className={styles.new_task}>新建任务</span>
+            </Button>
+          </div>
         </div>
-        <RightConSubTitle text="筛选条件" />
-        {!hiddenFilter && (
-          <div className="inputArea">
-            <div className="sendReportItem">
-              <span className="inputText">场&nbsp;&nbsp;&nbsp;&nbsp;景</span>
-              <Select
-                mode="multiple"
-                allowClear
-                style={{ minWidth: "200px" }}
-                placeholder="非必填"
-                // defaultValue={["mainfeed"]}
-                onChange={() => {}}
-              >
-                {renderSenceOptions()}
-              </Select>
-            </div>
-            <div className="sendReportItem">
-              <span className="inputText">产品线</span>
-              <Select
-                mode="multiple"
-                allowClear
-                style={{ minWidth: "200px" }}
-                placeholder="非必填"
-                // defaultValue={["Sfst"]}
-                onChange={() => {}}
-              >
-                {renderProductsOptions()}
-              </Select>
-            </div>
-            <div className="sendReportItem">
-              <span className="inputText">营销目标</span>
-              <Select
-                mode="multiple"
-                // className="sendReportItemSelect"
-                allowClear
-                style={{ minWidth: "200px" }}
-                placeholder="非必填"
-                // defaultValue="86004001"
-                onChange={() => {}}
-              >
-                {renderPromotionObjectiveOptions()}
-              </Select>
-            </div>
-            <div className="sendReportItem">
-              <span className="inputText">优化目标</span>
-              <Select
-                mode="multiple"
-                // className="sendReportItemSelect"
-                allowClear
-                style={{ minWidth: "200px" }}
-                placeholder="非必填"
-                // defaultValue={"88030001"}
-                onChange={() => {}}
-              >
-                {renderOptimizationObjectiveOptions()}
-              </Select>
-            </div>
-            <div className="sendReportItem">
-              <span className="inputText">下载类型</span>
-              <Radio.Group
-                options={downloadTypeEadioOptions}
-                onChange={this.handleDownLoadTypeChange}
-                value={downloadType}
-              />
-            </div>
-            <div className="sendReportItem">
-              <span className="inputText">自定义</span>
-              <Input
-                className="sendReportItemSelect"
-                placeholder="非必填"
-                // defaultVal={task_name}
-                onValueChange={() => {}}
-              />
-            </div>
-            <div className="sendReportItem">
-              <span className="inputText">筛选方式</span>
-              <Radio.Group
-                options={selectMethodRadioOptions}
-                onChange={this.handleSelectMethodChange}
-                value={selectMethod}
-              />
-            </div>
 
-            <div className="sendReportItem">
-              <Button
-                type="primary"
-                onClick={() => {
-                  // 开始对比： 新建渲染diff任务
-                  this.handleNewTask();
-                  this.handleGetDiffResult();
-                  this.setState({
-                    hiddenFilter: true,
-                  });
-                }}
-              >
-                新建任务
-              </Button>
-            </div>
-          </div>
-        )}
         {hiddenFilter && (
           <div
             style={{
               textAlign: "center",
               position: "absolute",
               left: "50%",
-              top: "140px",
+              top: "255px",
             }}
           >
             <DownCircleOutlined
@@ -532,7 +515,7 @@ class HandleDiff extends React.Component {
               textAlign: "center",
               position: "absolute",
               left: "50%",
-              top: "140px",
+              top: "255px",
             }}
           >
             <UpCircleOutlined
@@ -559,70 +542,10 @@ class HandleDiff extends React.Component {
   };
 
   render() {
-    const { hasTaskId, diffResultList, modalWidth, modalHeight } = this.state;
     return (
-      <div className="rightCon sendReport">
+      <div className={`${styles.rightCon} ${styles.sendReport}`}>
         {this.renderBreadcrumb()}
-        {/* {hasTaskId && this.renderHeaderTotalArea()} */}
-        {!hasTaskId && this.renderForm()}
-        {hasTaskId && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row-reverse",
-                marginBottom: "10px",
-                marginTop: "-28px",
-              }}
-            >
-              <Button
-                size={"small"}
-                type="primary"
-                style={{ margin: "0 0 10px 0" }}
-                onClick={() => {
-                  this.props.history.push(`/allTask`);
-                }}
-              >
-                返回
-              </Button>
-            </div>
-            {this.renderHeaderTotalArea()}
-          </>
-        )}
-        <Modal
-          title="对比结果"
-          width={modalWidth}
-          maskClosable={false}
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={null}
-          style={{ height: `${modalHeight}px`, position: "fixed", top: 0 }}
-        >
-          <JsonDiffJsx
-            modalWidth={modalWidth}
-            modalHeight={modalHeight}
-            visible={this.state.visible}
-            handleOk={this.handleOk}
-            handleCancel={this.handleCancel}
-            json1={this.state.json1}
-            json2={this.state.json2}
-            diffResStyle={this.state.diffResStyle}
-          />
-          {this.renderDiffFileds()}
-        </Modal>
-        {diffResultList.length > 0 && (
-          <DiffResultList
-            dataSource={diffResultList}
-            scanDiffRes={(all) => {
-              this.setState({
-                visible: true,
-                json_master: all.result.json_master,
-                json_test: all.result.json_test,
-              });
-            }}
-          />
-        )}
+        {this.renderForm()}
       </div>
     );
   }
@@ -641,4 +564,4 @@ let mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HandleDiff);
+export default connect(mapStateToProps, mapDispatchToProps)(NewTask);

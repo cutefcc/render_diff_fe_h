@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./index.less";
+import styles from "./index.less";
 
 export default function Pagination(props) {
   const {
@@ -35,7 +35,7 @@ export default function Pagination(props) {
     const pageChange = type === "pre" ? page - 1 : page + 1;
     return (
       <div
-        className={`${cn} ${limit ? "disabled" : ""}`}
+        className={`${styles[cn]} ${limit ? styles.disabled : ""}`}
         onClick={() => {
           if (limit) return;
           handlePageChange(pageChange);
@@ -58,7 +58,11 @@ export default function Pagination(props) {
     return range(start, end, 1).map((item) => (
       <div
         key={item}
-        className={item === page ? `current pagesItem` : `pagesItem`}
+        className={
+          item === page
+            ? `${styles.current} ${styles.pagesItem}`
+            : styles.pagesItem
+        }
         onClick={() => {
           handlePageChange(item);
         }}
@@ -69,7 +73,7 @@ export default function Pagination(props) {
   };
 
   return (
-    <div className={"paginationCon"}>
+    <div className={styles.paginationCon}>
       {renderPreOrNext("pre")}
       {renderItem()}
       {renderPreOrNext("next")}

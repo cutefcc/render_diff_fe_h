@@ -94,6 +94,23 @@ function checkLeftNavFn(state = {}, action) {
       return state;
   }
 }
+function json1(state = {}, action) {
+  switch (action.type) {
+    case types.SETJSON1:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+function json2(state = {}, action) {
+  switch (action.type) {
+    case types.SETJSON2:
+      return action.payload;
+
+    default:
+      return state;
+  }
+}
 
 // 在 redux 源码的 createStore 里面有一句    dispatch({ type: ActionTypes.INIT })
 // 用一个不匹配任何 reducer 的 action 去调了下dispatch，会默认走每一个 reducer 的default 分支
@@ -117,5 +134,7 @@ const reducer = combineReducers({
   leftNavStatus,
   envLists,
   checkLeftNavFn,
+  json1,
+  json2,
 });
 export default reducer;

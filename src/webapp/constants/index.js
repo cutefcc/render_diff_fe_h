@@ -12,6 +12,8 @@ let types = keyMirror({
   CHANGE_LEFTNAVSTATUS: null,
   SET_ENVLISTS: null,
   SAVE_LEFTNAVCHECKEDMETHOD: null,
+  SETJSON1: null,
+  SETJSON2: null,
 });
 
 const moduleConfig = [

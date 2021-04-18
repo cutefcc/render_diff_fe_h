@@ -10,7 +10,7 @@ import RightConSubTitle from "commonComponents/RightConSubTitle";
 // import SearchInput from "commonComponents/SearchInput";
 import * as actions from "store/actions";
 import { Table, Button, Input } from "antd";
-import "./index.less";
+import styles from "./index.less";
 
 @withRouter
 @autobind
@@ -28,42 +28,43 @@ class AllTask extends React.Component {
           dataIndex: "sort",
         },
         {
-          title: "项目名称",
+          title: "任务名称",
           dataIndex: "project_name",
         },
         {
-          title: "分支",
+          title: "环境分支",
           dataIndex: "branch",
         },
         {
-          title: "task_id",
-          dataIndex: "task_id",
+          title: "筛选条件",
+          dataIndex: "qq",
         },
         {
-          title: "创建日期",
-          dataIndex: "time",
+          title: "测试环境",
+          dataIndex: "qq",
         },
         {
-          title: "环境状态",
-          dataIndex: "status",
+          title: "对比环境",
+          dataIndex: "qq",
           render: (status) => {
             return <>{status === 1 ? "正常" : "部署中"}</>;
           },
         },
         {
-          title: "diff结果",
-          dataIndex: "if_successed",
-          render: (if_successed) => {
-            return (
-              <>
-                {if_successed ? (
-                  <span style={{ color: "green" }}>通过</span>
-                ) : (
-                  <span style={{ color: "red" }}>不通过</span>
-                )}
-              </>
-            );
-          },
+          title: "任务状态",
+          dataIndex: "qq",
+        },
+        {
+          title: "结果",
+          dataIndex: "qq",
+        },
+        {
+          title: "创建者",
+          dataIndex: "qq",
+        },
+        {
+          title: "创建日期",
+          dataIndex: "qq",
         },
         {
           title: "操作",
@@ -75,14 +76,16 @@ class AllTask extends React.Component {
                   type="primary"
                   style={{ marginRight: "10px" }}
                   onClick={() => {
-                    console.log("---data---", task_id);
-                    this.props.history.push(`/taskDetail?task_id=${task_id}`);
+                    this.props.history.push(`/task_detail?task_id=${task_id}`);
                   }}
                 >
-                  查看详情
+                  查看
                 </Button>
                 <Button type="primary" onClick={() => {}}>
-                  保存结果
+                  删除
+                </Button>
+                <Button type="primary" onClick={() => {}}>
+                  更新环境
                 </Button>
               </>
             );
@@ -97,22 +100,44 @@ class AllTask extends React.Component {
   }
 
   getAllTaskInfo = () => {
-    const { size } = this.state;
-    fetch("/api/getAllTask")
+    const { page, size } = this.state;
+    fetch(`/api/getAllTask?page_id=${page}&page_size=${size}`)
       .then((resp) => {
         return resp.json();
       })
       .then((res) => {
-        console.log("res", res);
         if (res.code === 0) {
-          let len = res.data.length;
+          let len = res.data.data.length;
+          let taskLists = [];
+          taskLists.length = len;
           for (let i = 0; i <= len - 1; i++) {
-            res.data[i].sort = i;
-            res.data[i].key = i;
+            const [
+              task_id,
+              project_name,
+              black_white_list,
+              test_branch,
+              master_env,
+              test_env,
+              status,
+              time,
+              flow_num,
+            ] = res.data.data[i];
+            taskLists[i] = {};
+            taskLists[i].sort = i;
+            taskLists[i].key = i;
+            taskLists[i].task_id = task_id;
+            taskLists[i].project_name = project_name;
+            taskLists[i].black_white_list = black_white_list;
+            taskLists[i].test_branch = test_branch;
+            taskLists[i].master_env = master_env;
+            taskLists[i].test_env = test_env;
+            taskLists[i].status = status;
+            taskLists[i].time = time;
+            taskLists[i].flow_num = flow_num;
           }
           this.setState({
-            projectLists: res.data,
-            showLists: res.data.slice(0, size),
+            // projectLists: taskLists,
+            showLists: taskLists,
           });
         }
       });
@@ -150,11 +175,11 @@ class AllTask extends React.Component {
     return (
       <>
         <RightConSubTitle text="" />
-        <div className="inputArea">
-          <div className="sendReportItem">
+        <div className={styles.inputArea}>
+          <div className={styles.sendReportItem}>
             <Input
-              className="sendReportItemSelect"
-              placeholder="请填写项目名称"
+              className={styles.sendReportItemSelect}
+              placeholder="根据任务名称搜索"
               // defaultVal={task_name}
               onValueChange={() => {}}
             />
@@ -183,7 +208,7 @@ class AllTask extends React.Component {
 
   render() {
     return (
-      <div className="rightCon sendReport">
+      <div className={`${styles.rightCon} ${styles.sendReport}`}>
         {this.renderBreadcrumb()}
         {this.renderForm()}
       </div>

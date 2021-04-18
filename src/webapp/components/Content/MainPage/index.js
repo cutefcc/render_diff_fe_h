@@ -11,7 +11,7 @@ import { getUrlParams, get10BitRandomStr } from "utils/index";
 import { senceConfig, productsConfig } from "constants/index";
 import { Input, Radio, Select, message, Button } from "antd";
 const { Option } = Select;
-import "./index.less";
+import styles from "./index.less";
 const radioOptions = [
   { label: "是", value: "yes" },
   { label: "否", value: "no" },
@@ -111,23 +111,23 @@ class MainPage extends React.Component {
     return (
       <>
         <RightConSubTitle text="" />
-        <div className="inputArea">
-          <div className="sendReportItem">
-            <span className="inputText">项目名称</span>
+        <div className={styles.inputArea}>
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>项目名称</span>
             <SearchInput
-              csName="sendReportItemSelect"
+              className={styles.sendReportItemSelect}
               placeholder="请填写项目名称"
               defaultVal={task_name}
               onValueChange={this.handleTaskNameChange}
             />
           </div>
-          <div className="sendReportItem">
-            <span className="inputText">环境分支</span>
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>环境分支</span>
             <Input
               placeholder=""
               // value={mid}
               // onChange={this.handleMidChange}
-              className="sendReportItemSelect"
+              className={styles.sendReportItemSelect}
             />
           </div>
           <div
@@ -136,38 +136,38 @@ class MainPage extends React.Component {
           ></div>
         </div>
         <RightConSubTitle text="筛选条件" />
-        <div className="inputArea">
-          <div className="sendReportItem">
-            <span className="inputText">场景</span>
+        <div className={styles.inputArea}>
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>场景</span>
             <Select
               defaultValue="mainfeed"
               onChange={() => {}}
-              className="sendReportItemSelect"
+              className={styles.sendReportItemSelect}
               // value={"1"}
             >
               {renderSenceOptions()}
             </Select>
           </div>
-          <div className="sendReportItem">
-            <span className="inputText">产品线</span>
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>产品线</span>
             <Select
               defaultValue="Sfst"
               onChange={() => {}}
-              className="sendReportItemSelect"
+              className={styles.sendReportItemSelect}
               // value={"1"}
             >
               {renderProductsOptions()}
             </Select>
           </div>
-          <div className="sendReportItem">
-            <span className="inputText">下载类型</span>
+          <div className={styles.sendReportItem}>
+            <span className={styles.inputText}>下载类型</span>
             <Radio.Group
               options={radioOptions}
               onChange={this.handleRadioChange}
               value={this.state.testResult}
             />
           </div>
-          <div className="sendReportItem" style={{ marginTop: "25px" }}>
+          <div className={styles.sendReportItem} style={{ marginTop: "25px" }}>
             <Button
               type="primary"
               size="middle"
@@ -192,7 +192,7 @@ class MainPage extends React.Component {
 
   render() {
     return (
-      <div className="rightCon sendReport">
+      <div className={`${styles.rightCon} ${styles.sendReport}`}>
         {this.renderBreadcrumb()}
         {this.renderForm()}
       </div>
